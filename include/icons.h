@@ -7,5 +7,7 @@
 #include "podajnik.h"
 #include "wentylator.h"
 #include "io.h"
+#include "wifi.h"
+#include "no_wifi.h"
 
 #endif

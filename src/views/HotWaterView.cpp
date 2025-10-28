@@ -16,7 +16,7 @@ void HotWaterView::show() {
 }
 
 void HotWaterView::reset(int position) {
-    selectedPos = CurrentState::hotWaterTemperatureToSet;
+    selectedPos = CurrentState::get()->hotWaterTemperatureToSet;
     Knob::get()->setMinMax(40, 70);
     Knob::get()->setListener(this);
     Knob::get()->setPosition(selectedPos);
@@ -28,6 +28,6 @@ void HotWaterView::onPositionChange(int position) {
 }
 
 void HotWaterView::onButtonPressed() {
-    CurrentState::hotWaterTemperatureToSet = selectedPos;
+    CurrentState::get()->hotWaterTemperatureToSet = selectedPos;
     Controller::get()->changeView("mainMenu", 2);
 }

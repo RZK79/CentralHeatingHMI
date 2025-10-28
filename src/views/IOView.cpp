@@ -1,6 +1,7 @@
 #include "IOView.h"
 #include "Knob.h"
 #include "Controller.h"
+#include <ESP8266WiFi.h>
 
 void IOView::reset(int position){
     Knob::get()->setMinMax(0, 0);
@@ -32,5 +33,9 @@ void IOView::show() {
     Lcd::get()->screen()->drawCircle(75, 27, 3, SSD1306_WHITE);
     Lcd::get()->screen()->println("grzalka: ");
     Lcd::get()->screen()->drawCircle(75, 36, 3, SSD1306_WHITE);
+    Lcd::get()->screen()->print("AP: ");
+    Lcd::get()->screen()->println(WiFi.SSID());
+    Lcd::get()->screen()->print("IP: ");
+    Lcd::get()->screen()->println(WiFi.localIP().toString());
     Lcd::get()->invalidateView();
 }

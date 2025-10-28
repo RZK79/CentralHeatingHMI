@@ -19,7 +19,7 @@ void FeederView::show() {
 }
 
 void FeederView::reset(int position) {
-    selectedPos = CurrentState::feederTimeToSet;
+    selectedPos = CurrentState::get()->feederTimeToSet;
     currentParam = 0;
     Knob::get()->setMinMax(800, 2000);
     Knob::get()->setListener(this);
@@ -33,12 +33,12 @@ void FeederView::onPositionChange(int position) {
 
 void FeederView::onButtonPressed() {
     if(currentParam == 0){
-        CurrentState::feederTimeToSet = selectedPos;
+        CurrentState::get()->feederTimeToSet = selectedPos;
         currentParam = 1;
-        selectedPos = CurrentState::feederPeriodToSet;
+        selectedPos = CurrentState::get()->feederPeriodToSet;
         Knob::get()->setPosition(selectedPos);
     }else{
-        CurrentState::feederPeriodToSet = selectedPos;
+        CurrentState::get()->feederPeriodToSet = selectedPos;
         Controller::get()->changeView("mainMenu", 5);
     }
 }

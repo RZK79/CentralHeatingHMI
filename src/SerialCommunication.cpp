@@ -95,10 +95,10 @@ void SerialCommunication::serialEvent() {
 
 void SerialCommunication::parseData(char* data) {
     if (strstr(data, "gf") != NULL) {
-        CurrentState::fumesTemperature = atoi(&data[2]);
+        CurrentState::get()->fumesTemperature = atoi(&data[2]);
     } else if (strstr(data, "ghw") != NULL) {
-        CurrentState::hotWaterTemperature = atoi(&data[3]);
+        CurrentState::get()->hotWaterTemperature = atoi(&data[3]);
     } else if (strstr(data, "gch") != NULL) {
-        CurrentState::centralHeatingTemperature = atoi(&data[3]);
+        CurrentState::get()->centralHeatingTemperature = atoi(&data[3]);
     }
 }

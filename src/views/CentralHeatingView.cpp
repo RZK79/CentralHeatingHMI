@@ -16,7 +16,7 @@ void CentralHeatingView::show() {
 }
 
 void CentralHeatingView::reset(int position) {
-    selectedPos = CurrentState::centralHeatingTemperatureToSet;
+    selectedPos = CurrentState::get()->centralHeatingTemperatureToSet;
     Knob::get()->setMinMax(50, 80);
     Knob::get()->setListener(this);
     Knob::get()->setPosition(selectedPos);
@@ -28,6 +28,6 @@ void CentralHeatingView::onPositionChange(int position) {
 }
 
 void CentralHeatingView::onButtonPressed() {
-    CurrentState::centralHeatingTemperatureToSet = selectedPos;
+    CurrentState::get()->centralHeatingTemperatureToSet = selectedPos;
     Controller::get()->changeView("mainMenu", 3);
 }

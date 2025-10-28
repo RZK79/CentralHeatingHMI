@@ -16,7 +16,7 @@ void BlowerView::show() {
 }
 
 void BlowerView::reset(int position) {
-    selectedPos = CurrentState::blowerSpeedToSet;
+    selectedPos = CurrentState::get()->blowerSpeedToSet;
     Knob::get()->setMinMax(700, 1000);
     Knob::get()->setListener(this);
     Knob::get()->setPosition(selectedPos);
@@ -28,6 +28,6 @@ void BlowerView::onPositionChange(int position) {
 }
 
 void BlowerView::onButtonPressed() {
-    CurrentState::blowerSpeedToSet = selectedPos;
+    CurrentState::get()->blowerSpeedToSet = selectedPos;
     Controller::get()->changeView("mainMenu", 4);
 }

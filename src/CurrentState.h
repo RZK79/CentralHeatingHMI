@@ -2,40 +2,29 @@
 #define _CURRENTSTATE_H_
 
 class CurrentState {
+    static CurrentState* instance;
+    CurrentState();
 public:
-    static bool isOn;
-    static bool isCentralHeatingPumpOn;
-    static bool isHotWaterPumpOn;
-    static int feederTimeToSet;
-    static int feederPeriodToSet;
-    static int centralHeatingTemperatureToSet;
-    static int centralHeatingTemperature;
-    static int hotWaterTemperatureToSet;
-    static int hotWaterTemperature;
-    static int blowerSpeedToSet;
-    static int fumesTemperature;
+    static CurrentState* get();
 
-    static void setDefault(){
-        isOn = false;
-        isCentralHeatingPumpOn = false;
-        isHotWaterPumpOn = false;
-        feederTimeToSet = 1000;
-        feederPeriodToSet = 1000;
-        centralHeatingTemperatureToSet = 55;
-        centralHeatingTemperature = 0;
-        hotWaterTemperatureToSet = 45;
-        hotWaterTemperature = 0;
-        blowerSpeedToSet = 750;
-        fumesTemperature = 0;
-    }
+    bool wifi_connected;
+    bool isOn;
+    bool isCentralHeatingPumpOn;
+    bool isHotWaterPumpOn;
 
-    static void save(){
+    int feederTimeToSet;
+    int feederPeriodToSet;
+    int centralHeatingTemperatureToSet;
+    int hotWaterTemperatureToSet;
+    int blowerSpeedToSet;
 
-    }
+    int centralHeatingTemperature;
+    int hotWaterTemperature;
+    int fumesTemperature;
 
-    static void load(){
-
-    }
+    void setDefault();
+    void save();
+    void load();
 };
 
 #endif
