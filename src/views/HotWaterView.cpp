@@ -29,5 +29,7 @@ void HotWaterView::onPositionChange(int position) {
 
 void HotWaterView::onButtonPressed() {
     CurrentState::get()->hotWaterTemperatureToSet = selectedPos;
+    CurrentState::get()->save();
+    SerialCommunication::get()->setHotWater(selectedPos);
     Controller::get()->changeView("mainMenu", 2);
 }

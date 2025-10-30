@@ -2,6 +2,7 @@
 #define _VIEW_H_
 
 #include "Lcd.h"
+#include "SerialCommunication.h"
 
 class View {
 public:

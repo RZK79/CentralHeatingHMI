@@ -27,6 +27,7 @@ class Knob : public ButtonListener {
     int position;
     int minPosition;
     int maxPosition;
+    int step;
 public:
     static Knob* get();
 
@@ -34,6 +35,7 @@ public:
 
     void update();
     void setPosition(int newPosition);
+    void setStep(int newStep);
     int getPosition();
     void setMinMax(int minPos, int maxPos);
 };

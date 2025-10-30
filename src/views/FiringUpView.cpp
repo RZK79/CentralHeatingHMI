@@ -14,7 +14,12 @@ void FiringUpView::onPositionChange(int position) {
 }
 
 void FiringUpView::onButtonPressed() {
-    //TODO: uruchomienie kotła
+    if(selectedPos == 0){
+        SerialCommunication::get()->turnOn();
+    }else{
+        SerialCommunication::get()->turnOff();
+    }
+    
     Lcd::get()->screen()->setTextColor(SSD1306_WHITE, SSD1306_BLACK);
     Controller::get()->changeView("mainMenu", 1);
 }

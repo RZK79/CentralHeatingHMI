@@ -29,5 +29,7 @@ void CentralHeatingView::onPositionChange(int position) {
 
 void CentralHeatingView::onButtonPressed() {
     CurrentState::get()->centralHeatingTemperatureToSet = selectedPos;
+    CurrentState::get()->save();
+    SerialCommunication::get()->setCentralHeating(selectedPos);
     Controller::get()->changeView("mainMenu", 3);
 }

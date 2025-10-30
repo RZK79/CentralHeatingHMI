@@ -22,6 +22,7 @@ Knob::Knob() {
     B_prev_state = digitalRead(ENCODER_B);
 
     position = 0;
+    step = 1;
 }
 
 void Knob::setListener(KnobListener* newListener) {
@@ -39,12 +40,12 @@ void Knob::update() {
 
     if (A_state != A_prev_state && B_state != B_prev_state) {
         if (A_state == HIGH && B_state == LOW) {
-            position--;
+            position -= step;
             if (position < minPosition) {
                 position = minPosition;
             }
         } else if (A_state == LOW && B_state == LOW) {
-            position++;
+            position += step;
             if (position > maxPosition) {
                 position = maxPosition;
             }
@@ -70,6 +71,10 @@ void Knob::setPosition(int newPosition) {
 
 int Knob::getPosition() {
     return position;
+}
+
+void Knob::setStep(int newStep){
+    step = newStep;
 }
 
 void Knob::onButtonPressed(Button* button) {

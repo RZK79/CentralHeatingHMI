@@ -41,6 +41,8 @@ void Controller::setup() {
     WiFi.mode(WIFI_STA);
     WiFi.begin(WIFI_AP, WIFI_PASS);
 
+    CurrentState::get()->load();
+
     updateDataTimer = new Timer();
     updateDataTimer->addEventListener(this);
     updateDataTimer->start(UPDATE_DATA_TIME);
