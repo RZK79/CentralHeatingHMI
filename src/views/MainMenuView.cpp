@@ -31,7 +31,12 @@ void MainMenuView::pumpStatus() {
     if (CurrentState::get()->wifi_connected) {
         Lcd::get()->screen()->drawBitmap(120, 0, wifi_bits, wifi_width, wifi_height, SSD1306_WHITE);
     } else {
-        Lcd::get()->screen()->drawBitmap(120, 0, no_wifi_bits, no_wifi_width, no_wifi_height, SSD1306_WHITE);
+        if(wifi_blinking){
+            Lcd::get()->screen()->drawBitmap(120, 0, wifi_bits, wifi_width, wifi_height, SSD1306_WHITE);
+            wifi_blinking = false;
+        }else{
+            wifi_blinking = true;
+        }
     }
 
     Lcd::get()->screen()->setTextSize(2);

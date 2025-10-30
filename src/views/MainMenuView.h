@@ -6,6 +6,7 @@
 
 class MainMenuView : public View, public KnobListener {
     void pumpStatus();
+    bool wifi_blinking;
 public:
     virtual void show();
     virtual void reset(int position = 0);

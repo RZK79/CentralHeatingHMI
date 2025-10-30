@@ -12,6 +12,6 @@
 #define LCD_SDA         SDA
 #define LCD_SCK         SCL
 
-#define UPDATE_DATA_TIME SECOND
+#define UPDATE_DATA_TIME 500
 
 #endif

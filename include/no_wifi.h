@@ -1,4 +1,0 @@
-#define no_wifi_width 8
-#define no_wifi_height 8
-static unsigned char no_wifi_bits[] = {
-   0x01, 0x7e, 0x85, 0x3c, 0x52, 0x38, 0x40, 0x98 };
