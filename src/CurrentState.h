@@ -7,15 +7,19 @@ class CurrentState {
 public:
     static CurrentState* get();
 
-    bool wifi_connected;
+    bool wifiConnected;
+    
     bool isOn;
     bool isCentralHeatingPumpOn;
     bool isHotWaterPumpOn;
+    bool isBlowerOn;
 
     int feederTimeToSet;
     int feederPeriodToSet;
+
     int centralHeatingTemperatureToSet;
     int hotWaterTemperatureToSet;
+    
     int blowerSpeedToSet;
 
     int centralHeatingTemperature;

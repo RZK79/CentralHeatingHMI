@@ -1,6 +1,7 @@
 #include "FiringUpView.h"
 #include "Lcd.h"
 #include "Controller.h"
+#include "CurrentState.h"
 
 void FiringUpView::reset(int position) {
     selectedPos = 0;
@@ -16,8 +17,10 @@ void FiringUpView::onPositionChange(int position) {
 void FiringUpView::onButtonPressed() {
     if(selectedPos == 0){
         SerialCommunication::get()->turnOn();
+        CurrentState::get()->isOn = true;
     }else{
         SerialCommunication::get()->turnOff();
+        CurrentState::get()->isOn = false;
     }
     
     Lcd::get()->screen()->setTextColor(SSD1306_WHITE, SSD1306_BLACK);

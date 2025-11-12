@@ -9,6 +9,7 @@
 #include "views/BlowerView.h"
 #include "views/FeederView.h"
 #include "views/IOView.h"
+#include "views/AlertView.h"
 
 String viewsNames[] = {
     "meinMenu"
@@ -17,7 +18,8 @@ String viewsNames[] = {
     "centralHeating",
     "blower",
     "feeder",
-    "io"
+    "io",
+    "alert"
 };
 
 #endif

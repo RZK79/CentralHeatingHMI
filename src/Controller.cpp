@@ -35,9 +35,9 @@ void Controller::setup() {
     views["blower"] = new BlowerView();
     views["feeder"] = new FeederView();
     views["io"] = new IOView();
-    
+
     changeView("mainMenu");
-    
+
     WiFi.mode(WIFI_STA);
     WiFi.begin(WIFI_AP, WIFI_PASS);
 
@@ -57,19 +57,19 @@ void Controller::loop() {
     updateDataTimer->update();
     Knob::get()->update();
     Lcd::get()->updateView();
+
+    SerialCommunication::get()->serialEvent();
 }
 
 void Controller::onTime(Timer* timer) {
     if (timer == updateDataTimer) {
-        if (CurrentState::get()->wifi_connected == false) {
-            if (WiFi.status() == WL_CONNECTED) {
-                CurrentState::get()->wifi_connected = true;
-            }
+        if (!CurrentState::get()->wifiConnected && WiFi.status() == WL_CONNECTED) {
+            CurrentState::get()->wifiConnected = true;
         }
 
-        // SerialCommunication::get()->getHotWater();
-        // SerialCommunication::get()->getCentralHeating();
-        // SerialCommunication::get()->getFumes();
+        SerialCommunication::get()->getHotWater();
+        SerialCommunication::get()->getCentralHeating();
+        SerialCommunication::get()->getFumes();
 
         if (currentView == "mainMenu" ||
             currentView == "io") {

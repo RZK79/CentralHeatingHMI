@@ -11,7 +11,7 @@ SerialCommunication* SerialCommunication::get() {
     return SerialCommunication::instance;
 }
 
-SerialCommunication::SerialCommunication(){
+SerialCommunication::SerialCommunication() {
     Serial.begin(9600);
 }
 
@@ -65,6 +65,15 @@ void SerialCommunication::getFumes() {
     Serial.print("*gf#");
 }
 
+void SerialCommunication::getCentralHeatingPump() {
+    Serial.print("*gchp#");
+}
+
+void SerialCommunication::getHotWaterPump() {
+    Serial.print("*ghwp#");
+}
+
+
 void SerialCommunication::reset() {
     data[0] = '\0';
     recvInProgress = false;
@@ -100,5 +109,9 @@ void SerialCommunication::parseData(char* data) {
         CurrentState::get()->hotWaterTemperature = atoi(&data[3]);
     } else if (strstr(data, "gch") != NULL) {
         CurrentState::get()->centralHeatingTemperature = atoi(&data[3]);
+    } else if (strstr(data, "gchp") != NULL) {
+        CurrentState::get()->isCentralHeatingPumpOn = (bool)atoi(&data[4]);
+    } else if (strstr(data, "ghwp") != NULL) {
+        CurrentState::get()->isHotWaterPumpOn = (bool)atoi(&data[4]);
     }
 }

@@ -32,6 +32,9 @@ public:
     void setHotWater(int temperature);
     void getHotWater();
 
+    void getCentralHeatingPump();
+    void getHotWaterPump();
+
     void getFumes();
     
     void parseData(char* data);

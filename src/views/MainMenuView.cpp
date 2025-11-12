@@ -28,7 +28,7 @@ void MainMenuView::pumpStatus() {
 
     }
 
-    if (CurrentState::get()->wifi_connected) {
+    if (CurrentState::get()->wifiConnected) {
         Lcd::get()->screen()->drawBitmap(120, 0, wifi_bits, wifi_width, wifi_height, SSD1306_WHITE);
     } else {
         if(wifi_blinking){
@@ -71,14 +71,14 @@ void MainMenuView::show() {
 
         Lcd::get()->screen()->setCursor(5, 5);
         String txt = String("temp CO: ");
-        txt.concat(55);
+        txt.concat(CurrentState::get()->centralHeatingTemperature);
         txt.concat((char)0xf8);
         txt.concat('C');
         Lcd::get()->screen()->print(txt);
 
         Lcd::get()->screen()->setCursor(5, 16);
         txt = String("temp CWU: ");
-        txt.concat(45);
+        txt.concat(CurrentState::get()->hotWaterTemperature);
         txt.concat((char)0xf8);
         txt.concat('C');
         Lcd::get()->screen()->print(txt);
