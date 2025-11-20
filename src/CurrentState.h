@@ -14,6 +14,8 @@ public:
     bool isHotWaterPumpOn;
     bool isBlowerOn;
 
+    bool isLighterOn;
+
     int feederTimeToSet;
     int feederPeriodToSet;
 
@@ -25,6 +27,8 @@ public:
     int centralHeatingTemperature;
     int hotWaterTemperature;
     int fumesTemperature;
+
+    int error;
 
     void setDefault();
     void save();

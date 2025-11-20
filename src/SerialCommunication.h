@@ -34,9 +34,15 @@ public:
 
     void getCentralHeatingPump();
     void getHotWaterPump();
+    void getLighter();
+    void getBlower();
+    void getFeeder();
 
     void getFumes();
-    
+
+    void getState();
+    void getError();
+        
     void parseData(char* data);
 };
 

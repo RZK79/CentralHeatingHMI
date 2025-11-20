@@ -9,7 +9,7 @@
 #include "views/BlowerView.h"
 #include "views/FeederView.h"
 #include "views/IOView.h"
-#include "views/AlertView.h"
+#include "views/ErrorView.h"
 
 String viewsNames[] = {
     "meinMenu"
@@ -19,7 +19,7 @@ String viewsNames[] = {
     "blower",
     "feeder",
     "io",
-    "alert"
+    "error"
 };
 
 #endif

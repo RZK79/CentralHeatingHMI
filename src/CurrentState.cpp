@@ -22,6 +22,7 @@ void CurrentState::setDefault() {
     isOn = false;
     isCentralHeatingPumpOn = false;
     isHotWaterPumpOn = false;
+    isLighterOn = false;
     feederTimeToSet = 1000;
     feederPeriodToSet = 1000;
     centralHeatingTemperatureToSet = 55;

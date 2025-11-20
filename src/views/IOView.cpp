@@ -56,5 +56,6 @@ void IOView::show() {
     Lcd::get()->screen()->println(WiFi.SSID());
     Lcd::get()->screen()->print("IP: ");
     Lcd::get()->screen()->println(WiFi.localIP().toString());
+    Serial.println(CurrentState::get()->isCentralHeatingPumpOn);
     Lcd::get()->invalidateView();
 }

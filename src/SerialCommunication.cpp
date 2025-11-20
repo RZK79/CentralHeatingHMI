@@ -1,5 +1,6 @@
 #include "SerialCommunication.h"
 #include "CurrentState.h"
+#include "Debug.h"
 
 SerialCommunication* SerialCommunication::instance = nullptr;
 
@@ -62,7 +63,7 @@ void SerialCommunication::getHotWater() {
 }
 
 void SerialCommunication::getFumes() {
-    Serial.print("*gf#");
+    Serial.print("*gfu#");
 }
 
 void SerialCommunication::getCentralHeatingPump() {
@@ -73,6 +74,25 @@ void SerialCommunication::getHotWaterPump() {
     Serial.print("*ghwp#");
 }
 
+void SerialCommunication::getLighter() {
+    Serial.print("*gl#");
+}
+
+void SerialCommunication::getBlower() {
+    Serial.print("*gb#");
+}
+
+void SerialCommunication::getFeeder() {
+    Serial.print("*gf#");
+}
+
+void SerialCommunication::getState() {
+    Serial.print("*gs#");
+}
+
+void SerialCommunication::getError() {
+    Serial.print("*error#");
+}
 
 void SerialCommunication::reset() {
     data[0] = '\0';
@@ -103,15 +123,25 @@ void SerialCommunication::serialEvent() {
 }
 
 void SerialCommunication::parseData(char* data) {
-    if (strstr(data, "gf") != NULL) {
+    if (strcmp(data, "gfu") == 0) {
         CurrentState::get()->fumesTemperature = atoi(&data[2]);
-    } else if (strstr(data, "ghw") != NULL) {
+    } else if (strcmp(data, "ghw") == 0) {
         CurrentState::get()->hotWaterTemperature = atoi(&data[3]);
-    } else if (strstr(data, "gch") != NULL) {
+    } else if (strcmp(data, "gch") == 0) {
         CurrentState::get()->centralHeatingTemperature = atoi(&data[3]);
-    } else if (strstr(data, "gchp") != NULL) {
+    } else if (strcmp(data, "gchp") == 0) {
         CurrentState::get()->isCentralHeatingPumpOn = (bool)atoi(&data[4]);
-    } else if (strstr(data, "ghwp") != NULL) {
+    } else if (strcmp(data, "ghwp") == 0) {
         CurrentState::get()->isHotWaterPumpOn = (bool)atoi(&data[4]);
+    } else if (strcmp(data, "gl") == 0) {
+        CurrentState::get()->isLighterOn = (bool)atoi(&data[2]) == 0 ? false : true;
+    } else if (strcmp(data, "gb") == 0) {
+        CurrentState::get()->isBlowerOn = atoi(&data[2]) == 0 ? false : true;
+    } else if (strcmp(data, "gf") == 0) {
+        CurrentState::get()->fumesTemperature = (bool)atoi(&data[4]);
+    } else if (strcmp(data, "gs") == 0) {
+        Debug::state = (ControllerState)atoi(&data[2]);
+    } else if (strcmp(data, "error") == 0) {
+        CurrentState::get()->error = atoi(&data[5]);
     }
 }

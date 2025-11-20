@@ -8,6 +8,8 @@
 #include "Knob.h"
 #include "views/Views.h"
 #include "wifi_credentials.h"
+#include "Errors.h"
+#include "Debug.h"
 
 char serverAddress[] = "192.168.0.3";  // server address
 int port = 443;
@@ -35,6 +37,7 @@ void Controller::setup() {
     views["blower"] = new BlowerView();
     views["feeder"] = new FeederView();
     views["io"] = new IOView();
+    views["error"] = new ErrorView();
 
     changeView("mainMenu");
 
@@ -61,6 +64,7 @@ void Controller::loop() {
     SerialCommunication::get()->serialEvent();
 }
 
+
 void Controller::onTime(Timer* timer) {
     if (timer == updateDataTimer) {
         if (!CurrentState::get()->wifiConnected && WiFi.status() == WL_CONNECTED) {
@@ -69,7 +73,18 @@ void Controller::onTime(Timer* timer) {
 
         SerialCommunication::get()->getHotWater();
         SerialCommunication::get()->getCentralHeating();
+        SerialCommunication::get()->getCentralHeatingPump();
+        SerialCommunication::get()->getHotWaterPump();
         SerialCommunication::get()->getFumes();
+        SerialCommunication::get()->getError();
+
+        if (CurrentState::get()->error != CentralHeating::Error::OK) {
+            changeView("error");
+        }
+
+        if (DEBUG) {
+            SerialCommunication::get()->getState();
+        }
 
         if (currentView == "mainMenu" ||
             currentView == "io") {

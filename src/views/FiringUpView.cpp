@@ -4,13 +4,14 @@
 #include "CurrentState.h"
 
 void FiringUpView::reset(int position) {
-    selectedPos = 0;
+    selectedPos = position;
     Knob::get()->setMinMax(0, 1);
     Knob::get()->setListener(this);
     Knob::get()->setPosition(position);
 }
 
 void FiringUpView::onPositionChange(int position) {
+    selectedPos = position;
     show();
 }
 
