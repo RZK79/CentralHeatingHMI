@@ -1,16 +1,6 @@
 #include "SerialCommunication.h"
 #include "CurrentState.h"
-#include "Debug.h"
-
-SerialCommunication* SerialCommunication::instance = nullptr;
-
-SerialCommunication* SerialCommunication::get() {
-    if (SerialCommunication::instance == nullptr) {
-        SerialCommunication::instance = new SerialCommunication();
-    }
-
-    return SerialCommunication::instance;
-}
+#include "Controller.h"
 
 SerialCommunication::SerialCommunication() {
     Serial.begin(9600);
@@ -78,8 +68,8 @@ void SerialCommunication::getLighter() {
     Serial.print("*gl#");
 }
 
-void SerialCommunication::getBlower() {
-    Serial.print("*gb#");
+void SerialCommunication::getBlowerSpeed() {
+    Serial.print("*gbs#");
 }
 
 void SerialCommunication::getFeeder() {
@@ -101,47 +91,78 @@ void SerialCommunication::reset() {
 }
 
 void SerialCommunication::serialEvent() {
-    char c;
-
-    while (Serial.available() > 0) {
-        c = Serial.read();
-        if (SerialCommunication::recvInProgress) {
-            if (c != SerialCommunication::end) {
-                SerialCommunication::data[i++] = c;
-                if (i >= 32) {
-                    i = 31;
+    if (Serial.available()) {
+        while (Serial.available() > 0) {
+            char c = Serial.read();
+            if (SerialCommunication::recvInProgress) {
+                if (c != SerialCommunication::end) {
+                    SerialCommunication::data[i++] = c;
+                    if (i >= 32) {
+                        i = 31;
+                    }
+                } else {
+                    SerialCommunication::data[i] = '\0';
+                    parseData(data);
+                    reset();
                 }
-            } else {
-                SerialCommunication::data[i] = '\0';
-                parseData(data);
-                reset();
+            } else if (c == SerialCommunication::start) {
+                recvInProgress = true;
             }
-        } else if (c == SerialCommunication::start) {
-            recvInProgress = true;
         }
     }
 }
 
 void SerialCommunication::parseData(char* data) {
     if (strcmp(data, "gfu") == 0) {
-        CurrentState::get()->fumesTemperature = atoi(&data[2]);
+        controller->getCurrentState()->fumesTemperature = atoi(&data[3]);
     } else if (strcmp(data, "ghw") == 0) {
-        CurrentState::get()->hotWaterTemperature = atoi(&data[3]);
+        controller->getCurrentState()->hotWaterTemperature = atoi(&data[3]);
     } else if (strcmp(data, "gch") == 0) {
-        CurrentState::get()->centralHeatingTemperature = atoi(&data[3]);
+        controller->getCurrentState()->centralHeatingTemperature = atoi(&data[3]);
     } else if (strcmp(data, "gchp") == 0) {
-        CurrentState::get()->isCentralHeatingPumpOn = (bool)atoi(&data[4]);
+        controller->getCurrentState()->isCentralHeatingPumpOn = (bool)atoi(&data[4]);
     } else if (strcmp(data, "ghwp") == 0) {
-        CurrentState::get()->isHotWaterPumpOn = (bool)atoi(&data[4]);
+        controller->getCurrentState()->isHotWaterPumpOn = (bool)atoi(&data[4]);
     } else if (strcmp(data, "gl") == 0) {
-        CurrentState::get()->isLighterOn = (bool)atoi(&data[2]) == 0 ? false : true;
-    } else if (strcmp(data, "gb") == 0) {
-        CurrentState::get()->isBlowerOn = atoi(&data[2]) == 0 ? false : true;
+        controller->getCurrentState()->lighter = (bool)atoi(&data[2]) == 0 ? false : true;
+    } else if (strcmp(data, "gbs") == 0) {
+        int speed = 6;
+        switch (atoi(&data[3])) {
+            default:
+            case 6:
+                speed = 0;
+                break;
+
+            case 0:
+                speed = 3600;
+                break;
+
+            case 1:
+                speed = 3000;
+                break;
+
+            case 2:
+                speed = 2500;
+                break;
+
+            case 3:
+                speed = 2000;
+                break;
+
+            case 4:
+                speed = 1500;
+                break;
+
+            case 5:
+                speed = 1000;
+                break;
+        }
+        controller->getCurrentState()->blowerSpeed = speed;
     } else if (strcmp(data, "gf") == 0) {
-        CurrentState::get()->fumesTemperature = (bool)atoi(&data[4]);
+        controller->getCurrentState()->isFeederOn = (bool)atoi(&data[2]);
     } else if (strcmp(data, "gs") == 0) {
-        Debug::state = (ControllerState)atoi(&data[2]);
+        // Debug::state = (ControllerState)atoi(&data[2]);
     } else if (strcmp(data, "error") == 0) {
-        CurrentState::get()->error = atoi(&data[5]);
+        controller->getCurrentState()->error = atoi(&data[5]);
     }
 }

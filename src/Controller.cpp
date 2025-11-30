@@ -1,6 +1,5 @@
 #include <ArduinoHttpClient.h>
 #include <ESP8266WiFi.h>
-
 #include "Config.h"
 #include "Controller.h"
 #include "CurrentState.h"
@@ -14,41 +13,31 @@
 char serverAddress[] = "192.168.0.3";  // server address
 int port = 443;
 
-Controller* Controller::instance = nullptr;
-
 Controller::Controller() {
-}
+    state = new CurrentState();
+    se = new SerialCommunication();
 
-Controller* Controller::get() {
-    if (Controller::instance == nullptr) {
-        Controller::instance = new Controller();
-    }
-
-    return Controller::instance;
+    views["mainMenu"] = new MainMenuView(this);
+    views["firingUp"] = new FiringUpView(this);
+    views["hotWater"] = new HotWaterView(this);
+    views["centralHeating"] = new CentralHeatingView(this);
+    views["blower"] = new BlowerView(this);
+    views["feeder"] = new FeederView(this);
+    views["io"] = new IOView(this);
+    views["error"] = new ErrorView(this);
 }
 
 void Controller::setup() {
-    CurrentState::get()->setDefault();
-
-    views["mainMenu"] = new MainMenuView();
-    views["firingUp"] = new FiringUpView();
-    views["hotWater"] = new HotWaterView();
-    views["centralHeating"] = new CentralHeatingView();
-    views["blower"] = new BlowerView();
-    views["feeder"] = new FeederView();
-    views["io"] = new IOView();
-    views["error"] = new ErrorView();
-
-    changeView("mainMenu");
-
     WiFi.mode(WIFI_STA);
     WiFi.begin(WIFI_AP, WIFI_PASS);
 
-    CurrentState::get()->load();
+    state->load();
 
     updateDataTimer = new Timer();
     updateDataTimer->addEventListener(this);
     updateDataTimer->start(UPDATE_DATA_TIME);
+
+    changeView("mainMenu");
 }
 
 void Controller::changeView(String viewName, int position) {
@@ -56,34 +45,42 @@ void Controller::changeView(String viewName, int position) {
     views[currentView]->reset(position);
 }
 
+CurrentState* Controller::getCurrentState() {
+    return state;
+}
+
+SerialCommunication* Controller::getSerialCommunication() {
+    return se;
+}
+
 void Controller::loop() {
     updateDataTimer->update();
     Knob::get()->update();
     Lcd::get()->updateView();
 
-    SerialCommunication::get()->serialEvent();
+    se->serialEvent();
 }
 
 
 void Controller::onTime(Timer* timer) {
     if (timer == updateDataTimer) {
-        if (!CurrentState::get()->wifiConnected && WiFi.status() == WL_CONNECTED) {
-            CurrentState::get()->wifiConnected = true;
+        if (!state->wifiConnected && WiFi.status() == WL_CONNECTED) {
+            state->wifiConnected = true;
         }
 
-        SerialCommunication::get()->getHotWater();
-        SerialCommunication::get()->getCentralHeating();
-        SerialCommunication::get()->getCentralHeatingPump();
-        SerialCommunication::get()->getHotWaterPump();
-        SerialCommunication::get()->getFumes();
-        SerialCommunication::get()->getError();
+        se->getHotWater();
+        se->getCentralHeating();
+        se->getCentralHeatingPump();
+        se->getHotWaterPump();
+        se->getFumes();
+        se->getError();
 
-        if (CurrentState::get()->error != CentralHeating::Error::OK) {
+        if (state->error != CentralHeating::Errors::OK) {
             changeView("error");
         }
 
         if (DEBUG) {
-            SerialCommunication::get()->getState();
+            se->getState();
         }
 
         if (currentView == "mainMenu" ||
@@ -92,3 +89,5 @@ void Controller::onTime(Timer* timer) {
         }
     }
 }
+
+Controller* controller = new Controller();

@@ -2,35 +2,28 @@
 #define _CURRENTSTATE_H_
 
 class CurrentState {
-    static CurrentState* instance;
-    CurrentState();
 public:
-    static CurrentState* get();
+    CurrentState();
 
     bool wifiConnected;
-    
     bool isOn;
     bool isCentralHeatingPumpOn;
     bool isHotWaterPumpOn;
-    bool isBlowerOn;
-
-    bool isLighterOn;
-
+    bool lighter;
+    bool isFeederOn;
     int feederTimeToSet;
     int feederPeriodToSet;
-
     int centralHeatingTemperatureToSet;
     int hotWaterTemperatureToSet;
-    
     int blowerSpeedToSet;
-
+    int blowerSpeed;
     int centralHeatingTemperature;
     int hotWaterTemperature;
     int fumesTemperature;
-
     int error;
 
     void setDefault();
+
     void save();
     void load();
 };

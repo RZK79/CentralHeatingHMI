@@ -7,6 +7,8 @@
 class CentralHeatingView : public View, public KnobListener {
     int selectedPos;
 public:
+    CentralHeatingView(Controller* parent);
+    
     virtual void show();
     virtual void reset(int position = 0);
 

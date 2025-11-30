@@ -7,6 +7,7 @@
 class BlowerView : public View, public KnobListener {
     int selectedPos;
 public:
+    BlowerView(Controller* parent);
     virtual void show();
     virtual void reset(int position = 0);
 

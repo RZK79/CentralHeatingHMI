@@ -7,6 +7,8 @@
 class AlertView : public View, public KnobListener {
     char* message;
 public:
+    AlertView(Controller* parent);
+    
     void setMessage(char* msg);
 
     virtual void show();

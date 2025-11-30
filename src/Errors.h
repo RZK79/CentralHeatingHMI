@@ -2,7 +2,7 @@
 #define _ERRORS_H_
 
 namespace CentralHeating{
-    enum Error {
+    enum Errors {
         OK,
         FIRING_UP_TIMEOUT,
         STABILIZATION_TIMEOUT,

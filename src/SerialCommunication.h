@@ -4,18 +4,14 @@
 #include <Arduino.h>
 
 class SerialCommunication {
-    static SerialCommunication *instance;
-
     char data[32] = { '\0' };
     bool recvInProgress;
     int i;
     const char start = '*';
     const char end = '#';
-    SerialCommunication();
 public:
-    static SerialCommunication* get();
-
-
+    SerialCommunication();
+    
     void serialEvent();
     void reset();
 
@@ -35,14 +31,14 @@ public:
     void getCentralHeatingPump();
     void getHotWaterPump();
     void getLighter();
-    void getBlower();
+    void getBlowerSpeed();
     void getFeeder();
 
     void getFumes();
 
     void getState();
     void getError();
-        
+
     void parseData(char* data);
 };
 

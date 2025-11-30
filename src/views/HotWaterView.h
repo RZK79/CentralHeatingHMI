@@ -7,6 +7,8 @@
 class HotWaterView : public View, public KnobListener {
     int selectedPos;
 public:
+    HotWaterView(Controller* parent);
+    
     virtual void show();
     virtual void reset(int position = 0);
 

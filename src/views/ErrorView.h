@@ -6,6 +6,8 @@
 
 class ErrorView : public View, public KnobListener {
 public:
+    ErrorView(Controller* parent);
+    
     virtual void show();
     virtual void reset(int position = 0);
 

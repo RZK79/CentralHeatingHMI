@@ -1,36 +1,31 @@
 #include "CurrentState.h"
-#include <EEPROM.h>
 #include <Arduino.h>
+#include <EEPROM.h>
+#include "Errors.h"
 
-CurrentState* CurrentState::instance = nullptr;
-
-CurrentState* CurrentState::get() {
-    if (CurrentState::instance == nullptr) {
-        CurrentState::instance = new CurrentState();
-    }
-
-    return CurrentState::instance;
-}
-
-CurrentState::CurrentState(){
+CurrentState::CurrentState() {
     EEPROM.begin(512);
+    setDefault();
     load();
 }
 
 void CurrentState::setDefault() {
     wifiConnected = false;
-    isOn = false;
+    isOn = false;;
     isCentralHeatingPumpOn = false;
     isHotWaterPumpOn = false;
-    isLighterOn = false;
-    feederTimeToSet = 1000;
-    feederPeriodToSet = 1000;
+    lighter = false;
+    isFeederOn = false;
+    feederTimeToSet = 2000;
+    feederPeriodToSet = 3000;
     centralHeatingTemperatureToSet = 55;
-    centralHeatingTemperature = 0;
     hotWaterTemperatureToSet = 45;
+    blowerSpeedToSet = 0;
+    blowerSpeed = 0;
+    centralHeatingTemperature = 0;
     hotWaterTemperature = 0;
-    blowerSpeedToSet = 750;
     fumesTemperature = 0;
+    error = CentralHeating::Errors::OK;
 }
 
 void CurrentState::save() {
@@ -53,12 +48,12 @@ void CurrentState::save() {
 void CurrentState::load() {
     uint16_t save_marker = 0;
     EEPROM.get(0, save_marker);
-    
+
     if (save_marker != 0xcafe) {
         setDefault();
         save();
     }
-    
+
     int offset = 0;
     offset += sizeof(uint16_t);
     EEPROM.get(offset, feederTimeToSet);

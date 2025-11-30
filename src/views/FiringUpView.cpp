@@ -3,6 +3,10 @@
 #include "Controller.h"
 #include "CurrentState.h"
 
+FiringUpView::FiringUpView(Controller* parent) : View(parent) {
+
+}
+
 void FiringUpView::reset(int position) {
     selectedPos = position;
     Knob::get()->setMinMax(0, 1);
@@ -16,16 +20,16 @@ void FiringUpView::onPositionChange(int position) {
 }
 
 void FiringUpView::onButtonPressed() {
-    if(selectedPos == 0){
-        SerialCommunication::get()->turnOn();
-        CurrentState::get()->isOn = true;
-    }else{
-        SerialCommunication::get()->turnOff();
-        CurrentState::get()->isOn = false;
+    if (selectedPos == 0) {
+        parentController->getSerialCommunication()->turnOn();
+        parentController->getCurrentState()->isOn = true;
+    } else {
+        parentController->getSerialCommunication()->turnOff();
+        parentController->getCurrentState()->isOn = false;
     }
-    
+
     Lcd::get()->screen()->setTextColor(SSD1306_WHITE, SSD1306_BLACK);
-    Controller::get()->changeView("mainMenu", 1);
+    parentController->changeView("mainMenu", 1);
 }
 
 void FiringUpView::show() {

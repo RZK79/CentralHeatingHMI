@@ -2,6 +2,10 @@
 #include "CurrentState.h"
 #include "Controller.h"
 
+CentralHeatingView::CentralHeatingView(Controller* parent) : View(parent){
+    
+}
+
 void CentralHeatingView::show() {
     Lcd::get()->screen()->clearDisplay();
     Lcd::get()->screen()->setCursor(35, 10);
@@ -16,7 +20,7 @@ void CentralHeatingView::show() {
 }
 
 void CentralHeatingView::reset(int position) {
-    selectedPos = CurrentState::get()->centralHeatingTemperatureToSet;
+    selectedPos = parentController->getCurrentState()->centralHeatingTemperatureToSet;
     Knob::get()->setMinMax(50, 80);
     Knob::get()->setListener(this);
     Knob::get()->setPosition(selectedPos);
@@ -28,8 +32,8 @@ void CentralHeatingView::onPositionChange(int position) {
 }
 
 void CentralHeatingView::onButtonPressed() {
-    CurrentState::get()->centralHeatingTemperatureToSet = selectedPos;
-    CurrentState::get()->save();
-    SerialCommunication::get()->setCentralHeating(selectedPos);
-    Controller::get()->changeView("mainMenu", 3);
+    parentController->getCurrentState()->centralHeatingTemperatureToSet = selectedPos;
+    parentController->getCurrentState()->save();
+    parentController->getSerialCommunication()->setCentralHeating(selectedPos);
+    parentController->changeView("mainMenu", 3);
 }

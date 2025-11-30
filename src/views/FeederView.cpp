@@ -2,6 +2,10 @@
 #include "CurrentState.h"
 #include "Controller.h"
 
+FeederView::FeederView(Controller* parent) : View(parent){
+    
+}
+
 void FeederView::show() {
     Lcd::get()->screen()->clearDisplay();
     Lcd::get()->screen()->setCursor(35, 5);
@@ -19,7 +23,7 @@ void FeederView::show() {
 }
 
 void FeederView::reset(int position) {
-    selectedPos = CurrentState::get()->feederTimeToSet;
+    selectedPos = parentController->getCurrentState()->feederTimeToSet;
     currentParam = 0;
     Knob::get()->setMinMax(800, 2000);
     Knob::get()->setListener(this);
@@ -34,16 +38,16 @@ void FeederView::onPositionChange(int position) {
 
 void FeederView::onButtonPressed() {
     if(currentParam == 0){
-        CurrentState::get()->feederTimeToSet = selectedPos;
+        parentController->getCurrentState()->feederTimeToSet = selectedPos;
         currentParam = 1;
-        selectedPos = CurrentState::get()->feederPeriodToSet;
+        selectedPos = parentController->getCurrentState()->feederPeriodToSet;
         Knob::get()->setPosition(selectedPos);
     }else{
-        CurrentState::get()->feederPeriodToSet = selectedPos;
-        CurrentState::get()->save();
-        SerialCommunication::get()->setFeederTime(CurrentState::get()->feederTimeToSet);
-        SerialCommunication::get()->setFeederPeriod(CurrentState::get()->feederPeriodToSet);
+        parentController->getCurrentState()->feederPeriodToSet = selectedPos;
+        parentController->getCurrentState()->save();
+        parentController->getSerialCommunication()->setFeederTime(parentController->getCurrentState()->feederTimeToSet);
+        parentController->getSerialCommunication()->setFeederPeriod(parentController->getCurrentState()->feederPeriodToSet);
         Knob::get()->setStep(1);
-        Controller::get()->changeView("mainMenu", 5);
+        parentController->changeView("mainMenu", 5);
     }
 }

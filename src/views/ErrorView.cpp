@@ -4,6 +4,10 @@
 #include "CurrentState.h"
 #include "Errors.h"
 
+ErrorView::ErrorView(Controller* parent) : View(parent){
+    
+}
+
 void ErrorView::show() {
 
 }
@@ -22,16 +26,16 @@ void ErrorView::onPositionChange(int position) {
 
     Lcd::get()->screen()->setCursor(0, 37);
     const char* msg = "";
-    switch (CurrentState::get()->error) {
-        case CentralHeating::Error::FIRING_UP_TIMEOUT:
+    switch (parentController->getCurrentState()->error) {
+        case CentralHeating::Errors::FIRING_UP_TIMEOUT:
             msg = "Zbyt dlugi czas rozpalania!";
             break;
 
-        case CentralHeating::Error::STABILIZATION_TIMEOUT:
+        case CentralHeating::Errors::STABILIZATION_TIMEOUT:
             msg = "Zbyt dlugi czas stabilizacji!";
             break;
 
-        case CentralHeating::Error::FUMES_TEMPERATURE_TOO_HIGH:
+        case CentralHeating::Errors::FUMES_TEMPERATURE_TOO_HIGH:
             msg = "Zbyt wysoka temperatura spalin!";
             break;
 
@@ -42,5 +46,5 @@ void ErrorView::onPositionChange(int position) {
 }
 
 void ErrorView::onButtonPressed() {
-    Controller::get()->changeView("mainMenu", 0);
+    parentController->changeView("mainMenu", 0);
 }
