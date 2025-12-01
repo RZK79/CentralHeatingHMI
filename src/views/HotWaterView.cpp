@@ -2,10 +2,6 @@
 #include "CurrentState.h"
 #include "Controller.h"
 
-HotWaterView::HotWaterView(Controller* parent) : View(parent) {
-
-}
-
 void HotWaterView::show() {
     Lcd::get()->screen()->clearDisplay();
     Lcd::get()->screen()->setCursor(35, 10);
@@ -20,7 +16,7 @@ void HotWaterView::show() {
 }
 
 void HotWaterView::reset(int position) {
-    selectedPos = parentController->getCurrentState()->hotWaterTemperatureToSet;
+    selectedPos = controller->getCurrentState()->hotWaterTemperatureToSet;
     Knob::get()->setMinMax(40, 70);
     Knob::get()->setListener(this);
     Knob::get()->setPosition(selectedPos);
@@ -32,8 +28,8 @@ void HotWaterView::onPositionChange(int position) {
 }
 
 void HotWaterView::onButtonPressed() {
-    parentController->getCurrentState()->hotWaterTemperatureToSet = selectedPos;
-    parentController->getCurrentState()->save();
-    parentController->getSerialCommunication()->setHotWater(selectedPos);
-    parentController->changeView("mainMenu", 2);
+    controller->getCurrentState()->hotWaterTemperatureToSet = selectedPos;
+    controller->getCurrentState()->save();
+    controller->getSerialCommunication()->setHotWaterTemperature(selectedPos);
+    controller->changeView("mainMenu", 2);
 }

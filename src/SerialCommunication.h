@@ -20,24 +20,24 @@ public:
 
     void setFeederTime(int time);
     void setFeederPeriod(int time);
-    void setBlower(int speed);
+    void setBlowerSpeed(int speed);
+    void setCentralHeatingTemperature(int temperature);
+    void getCentralHeatingTemperature();
 
-    void setCentralHeating(int temperature);
-    void getCentralHeating();
-
-    void setHotWater(int temperature);
-    void getHotWater();
+    void setHotWaterTemperature(int temperature);
+    void getHotWaterTemperature();
+    void getHotWaterPump();
 
     void getCentralHeatingPump();
-    void getHotWaterPump();
     void getLighter();
     void getBlowerSpeed();
     void getFeeder();
 
-    void getFumes();
+    void getFumesTemperature();
 
-    void getState();
     void getError();
+
+    void resetArduino();
 
     void parseData(char* data);
 };

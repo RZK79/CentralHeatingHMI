@@ -9,6 +9,7 @@
 #include "views/BlowerView.h"
 #include "views/FeederView.h"
 #include "views/IOView.h"
+#include "views/SettingsView.h"
 #include "views/ErrorView.h"
 
 String viewsNames[] = {
@@ -19,6 +20,7 @@ String viewsNames[] = {
     "blower",
     "feeder",
     "io",
+    "settings",
     "error"
 };
 

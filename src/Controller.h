@@ -9,7 +9,6 @@
 #include "SerialCommunication.h"
 
 class Controller : public TimerEventListener {
-
     Timer* updateDataTimer;
 
     std::map<String, View*> views;

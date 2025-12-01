@@ -4,8 +4,6 @@
 #include "View.h"
 #include "Knob.h"
 
-class Controller;
-
 class MainMenuView : public View, public KnobListener {
     void pumpStatus();
     bool wifi_blinking;
@@ -16,15 +14,14 @@ class MainMenuView : public View, public KnobListener {
     void showRadiators();
     void showBlower();
     void showFeeder();
+    void showSettings();
     void showIO();
 public:
-    MainMenuView(Controller *parent);
-    virtual void show();
-    virtual void reset(int position = 0);
+    void show() override;
+    void reset(int position = 0) override;
 
-    virtual void onPositionChange(int position);
-    virtual void onButtonPressed();
-
+    void onPositionChange(int position) override;
+    void onButtonPressed() override;
 };
 
 #endif

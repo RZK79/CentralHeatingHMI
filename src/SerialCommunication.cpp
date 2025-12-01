@@ -1,6 +1,7 @@
 #include "SerialCommunication.h"
 #include "CurrentState.h"
 #include "Controller.h"
+#include <regex.h>
 
 SerialCommunication::SerialCommunication() {
     Serial.begin(9600);
@@ -26,34 +27,34 @@ void SerialCommunication::setFeederPeriod(int time) {
     Serial.print("#");
 }
 
-void SerialCommunication::setBlower(int speed) {
-    Serial.print("*sb");
+void SerialCommunication::setBlowerSpeed(int speed) {
+    Serial.print("*sbs");
     Serial.print(speed);
     Serial.print("#");
 }
 
-void SerialCommunication::setCentralHeating(int temperature) {
-    Serial.print("*sch");
+void SerialCommunication::setCentralHeatingTemperature(int temperature) {
+    Serial.print("*scht");
     Serial.print(temperature);
     Serial.print("#");
 }
 
-void SerialCommunication::getCentralHeating() {
-    Serial.print("*gch#");
+void SerialCommunication::getCentralHeatingTemperature() {
+    Serial.print("*gcht#");
 }
 
-void SerialCommunication::setHotWater(int temperature) {
-    Serial.print("*shw");
+void SerialCommunication::setHotWaterTemperature(int temperature) {
+    Serial.print("*shwt");
     Serial.print(temperature);
     Serial.print("#");
 }
 
-void SerialCommunication::getHotWater() {
-    Serial.print("*ghw#");
+void SerialCommunication::getHotWaterTemperature() {
+    Serial.print("*ghwt#");
 }
 
-void SerialCommunication::getFumes() {
-    Serial.print("*gfu#");
+void SerialCommunication::getFumesTemperature() {
+    Serial.print("*gft#");
 }
 
 void SerialCommunication::getCentralHeatingPump() {
@@ -76,12 +77,12 @@ void SerialCommunication::getFeeder() {
     Serial.print("*gf#");
 }
 
-void SerialCommunication::getState() {
-    Serial.print("*gs#");
-}
-
 void SerialCommunication::getError() {
     Serial.print("*error#");
+}
+
+void SerialCommunication::resetArduino() {
+    Serial.print("*reset#");
 }
 
 void SerialCommunication::reset() {
@@ -92,6 +93,7 @@ void SerialCommunication::reset() {
 
 void SerialCommunication::serialEvent() {
     if (Serial.available()) {
+        delay(2);
         while (Serial.available() > 0) {
             char c = Serial.read();
             if (SerialCommunication::recvInProgress) {
@@ -113,19 +115,19 @@ void SerialCommunication::serialEvent() {
 }
 
 void SerialCommunication::parseData(char* data) {
-    if (strcmp(data, "gfu") == 0) {
+    if (strncmp("gft", data, 3) == 0) {
         controller->getCurrentState()->fumesTemperature = atoi(&data[3]);
-    } else if (strcmp(data, "ghw") == 0) {
-        controller->getCurrentState()->hotWaterTemperature = atoi(&data[3]);
-    } else if (strcmp(data, "gch") == 0) {
-        controller->getCurrentState()->centralHeatingTemperature = atoi(&data[3]);
-    } else if (strcmp(data, "gchp") == 0) {
+    } else if (strncmp("ghwt", data, 4) == 0) {
+        controller->getCurrentState()->hotWaterTemperature = atoi(&data[4]);
+    } else if (strncmp("gcht", data, 4) == 0) {
+        controller->getCurrentState()->centralHeatingTemperature = atoi(&data[4]);
+    } else if (strncmp("gchp", data, 4) == 0) {
         controller->getCurrentState()->isCentralHeatingPumpOn = (bool)atoi(&data[4]);
-    } else if (strcmp(data, "ghwp") == 0) {
+    } else if (strncmp("ghwp", data, 4) == 0) {
         controller->getCurrentState()->isHotWaterPumpOn = (bool)atoi(&data[4]);
-    } else if (strcmp(data, "gl") == 0) {
+    } else if (strncmp("gl", data, 2) == 0) {
         controller->getCurrentState()->lighter = (bool)atoi(&data[2]) == 0 ? false : true;
-    } else if (strcmp(data, "gbs") == 0) {
+    } else if (strncmp("gbs", data, 3) == 0) {
         int speed = 6;
         switch (atoi(&data[3])) {
             default:
@@ -158,11 +160,9 @@ void SerialCommunication::parseData(char* data) {
                 break;
         }
         controller->getCurrentState()->blowerSpeed = speed;
-    } else if (strcmp(data, "gf") == 0) {
+    } else if (strncmp("gf", data, 2) == 0) {
         controller->getCurrentState()->isFeederOn = (bool)atoi(&data[2]);
-    } else if (strcmp(data, "gs") == 0) {
-        // Debug::state = (ControllerState)atoi(&data[2]);
-    } else if (strcmp(data, "error") == 0) {
+    } else if (strncmp("error", data, 5) == 0) {
         controller->getCurrentState()->error = atoi(&data[5]);
     }
 }

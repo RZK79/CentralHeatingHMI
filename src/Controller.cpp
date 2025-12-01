@@ -16,15 +16,17 @@ int port = 443;
 Controller::Controller() {
     state = new CurrentState();
     se = new SerialCommunication();
+    se->resetArduino();
 
-    views["mainMenu"] = new MainMenuView(this);
-    views["firingUp"] = new FiringUpView(this);
-    views["hotWater"] = new HotWaterView(this);
-    views["centralHeating"] = new CentralHeatingView(this);
-    views["blower"] = new BlowerView(this);
-    views["feeder"] = new FeederView(this);
-    views["io"] = new IOView(this);
-    views["error"] = new ErrorView(this);
+    views["mainMenu"] = new MainMenuView();
+    views["firingUp"] = new FiringUpView();
+    views["hotWater"] = new HotWaterView();
+    views["centralHeating"] = new CentralHeatingView();
+    views["blower"] = new BlowerView();
+    views["feeder"] = new FeederView();
+    views["io"] = new IOView();
+    views["settings"] = new SettingsView();
+    views["error"] = new ErrorView();
 }
 
 void Controller::setup() {
@@ -68,19 +70,18 @@ void Controller::onTime(Timer* timer) {
             state->wifiConnected = true;
         }
 
-        se->getHotWater();
-        se->getCentralHeating();
+        se->getHotWaterTemperature();
+        se->getCentralHeatingTemperature();
         se->getCentralHeatingPump();
         se->getHotWaterPump();
-        se->getFumes();
+        se->getFumesTemperature();
+        se->getFeeder();
+        se->getLighter();
+        se->getBlowerSpeed();
         se->getError();
 
         if (state->error != CentralHeating::Errors::OK) {
             changeView("error");
-        }
-
-        if (DEBUG) {
-            se->getState();
         }
 
         if (currentView == "mainMenu" ||

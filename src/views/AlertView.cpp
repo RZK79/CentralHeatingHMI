@@ -1,10 +1,7 @@
 #include "AlertView.h"
 #include "Controller.h"
 #include "alert.h"
-
-AlertView::AlertView(Controller* parent) : View(parent){
-
-}
+#include "Errors.h"
 
 void AlertView::setMessage(char* msg) {
     message = msg;
@@ -28,5 +25,7 @@ void AlertView::onPositionChange(int position) {
 
 void AlertView::onButtonPressed() {
     message = (char*)"\0";
-    parentController->changeView("mainMenu", 1);
+    controller->getSerialCommunication()->reset();
+    controller->getCurrentState()->error = CentralHeating::Errors::OK;
+    controller->changeView("mainMenu", 1);
 }

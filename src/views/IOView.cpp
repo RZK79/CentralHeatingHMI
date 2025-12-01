@@ -4,10 +4,6 @@
 #include "Controller.h"
 #include "CurrentState.h"
 
-IOView::IOView(Controller* parent) : View(parent) {
-
-}
-
 void IOView::reset(int position) {
     Knob::get()->setMinMax(0, 0);
     Knob::get()->setListener(this);
@@ -19,7 +15,7 @@ void IOView::onPositionChange(int position) {
 }
 
 void IOView::onButtonPressed() {
-    parentController->changeView("mainMenu", 6);
+    controller->changeView("mainMenu", 7);
 }
 
 void IOView::show() {
@@ -30,27 +26,35 @@ void IOView::show() {
     Lcd::get()->screen()->setCursor(0, 0);
 
     Lcd::get()->screen()->println("pompa CO: ");
-    if (parentController->getCurrentState()->isCentralHeatingPumpOn) {
+    if (controller->getCurrentState()->isCentralHeatingPumpOn) {
         Lcd::get()->screen()->fillCircle(75, 3, 3, SSD1306_WHITE);
     } else {
         Lcd::get()->screen()->drawCircle(75, 3, 3, SSD1306_WHITE);
     }
 
     Lcd::get()->screen()->println("pompa CWU: ");
-    if (parentController->getCurrentState()->isHotWaterPumpOn) {
+    if (controller->getCurrentState()->isHotWaterPumpOn) {
         Lcd::get()->screen()->fillCircle(75, 11, 3, SSD1306_WHITE);
     } else {
         Lcd::get()->screen()->drawCircle(75, 11, 3, SSD1306_WHITE);
     }
 
     Lcd::get()->screen()->println("podajnik: ");
-    Lcd::get()->screen()->drawCircle(75, 27, 3, SSD1306_WHITE);
+    if(controller->getCurrentState()->isFeederOn){
+        Lcd::get()->screen()->fillCircle(75, 19, 3, SSD1306_WHITE);
+    }else{
+        Lcd::get()->screen()->drawCircle(75, 19, 3, SSD1306_WHITE);
+    }
     
     Lcd::get()->screen()->println("grzalka: ");
-    Lcd::get()->screen()->drawCircle(75, 36, 3, SSD1306_WHITE);
+    if(controller->getCurrentState()->lighter){
+        Lcd::get()->screen()->fillCircle(75, 27, 3, SSD1306_WHITE);
+    }else{
+        Lcd::get()->screen()->drawCircle(75, 27, 3, SSD1306_WHITE);
+    }
     
-    Lcd::get()->screen()->println("wentylator: ");
-    Lcd::get()->screen()->println(parentController->getCurrentState()->blowerSpeed);
+    Lcd::get()->screen()->print("wentylator: ");
+    Lcd::get()->screen()->println(controller->getCurrentState()->blowerSpeed);
     
     Lcd::get()->screen()->print("AP: ");
     Lcd::get()->screen()->println(WiFi.SSID());

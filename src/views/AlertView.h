@@ -7,15 +7,13 @@
 class AlertView : public View, public KnobListener {
     char* message;
 public:
-    AlertView(Controller* parent);
-    
     void setMessage(char* msg);
 
-    virtual void show();
-    virtual void reset(int position = 0);
+    void show() override;
+    void reset(int position = 0) override;
 
-    virtual void onPositionChange(int position);
-    virtual void onButtonPressed();
+    void onPositionChange(int position) override;
+    void onButtonPressed() override;
 };
 
 #endif

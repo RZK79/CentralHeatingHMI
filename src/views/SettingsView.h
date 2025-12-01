@@ -1,10 +1,10 @@
-#ifndef _ERRORVIEW_H_
-#define _ERRORVIEW_H_
+#ifndef _SETTINGSVIEW_H_
+#define _SETTINGSVIEW_H_
 
 #include "View.h"
 #include "Knob.h"
 
-class ErrorView : public View, public KnobListener {
+class SettingsView : public View, public KnobListener{
 public:
     void show() override;
     void reset(int position = 0) override;
