@@ -1,5 +1,6 @@
 #ifndef _CURRENTSTATE_H_
 #define _CURRENTSTATE_H_
+#include "BlowerSpeed.h"
 
 class CurrentState {
 public:
@@ -15,8 +16,8 @@ public:
     int feederPeriodToSet;
     int centralHeatingTemperatureToSet;
     int hotWaterTemperatureToSet;
-    int blowerSpeedToSet;
-    int blowerSpeed;
+    BlowerSpeed blowerSpeedToSet;
+    BlowerSpeed blowerSpeed;
     int centralHeatingTemperature;
     int hotWaterTemperature;
     int fumesTemperature;

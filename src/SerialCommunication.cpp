@@ -1,7 +1,7 @@
 #include "SerialCommunication.h"
 #include "CurrentState.h"
 #include "Controller.h"
-#include <regex.h>
+#include "BlowerSpeed.h"
 
 SerialCommunication::SerialCommunication() {
     Serial.begin(9600);
@@ -128,37 +128,7 @@ void SerialCommunication::parseData(char* data) {
     } else if (strncmp("gl", data, 2) == 0) {
         controller->getCurrentState()->lighter = (bool)atoi(&data[2]) == 0 ? false : true;
     } else if (strncmp("gbs", data, 3) == 0) {
-        int speed = 6;
-        switch (atoi(&data[3])) {
-            default:
-            case 6:
-                speed = 0;
-                break;
-
-            case 0:
-                speed = 3600;
-                break;
-
-            case 1:
-                speed = 3000;
-                break;
-
-            case 2:
-                speed = 2500;
-                break;
-
-            case 3:
-                speed = 2000;
-                break;
-
-            case 4:
-                speed = 1500;
-                break;
-
-            case 5:
-                speed = 1000;
-                break;
-        }
+        BlowerSpeed speed = (BlowerSpeed)atoi(&data[3]);
         controller->getCurrentState()->blowerSpeed = speed;
     } else if (strncmp("gf", data, 2) == 0) {
         controller->getCurrentState()->isFeederOn = (bool)atoi(&data[2]);

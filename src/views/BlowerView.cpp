@@ -10,17 +10,17 @@ void BlowerView::show() {
 
     Lcd::get()->screen()->setCursor(50, 30);
     Lcd::get()->screen()->setTextSize(2);
-    Lcd::get()->screen()->print(selectedPos);
+
+    Lcd::get()->screen()->print(BlowerSpeedToValue(static_cast<BlowerSpeed>(selectedPos)));
 
     Lcd::get()->invalidateView();
 }
 
 void BlowerView::reset(int position) {
     selectedPos = controller->getCurrentState()->blowerSpeedToSet;
-    Knob::get()->setMinMax(700, 1000);
+    Knob::get()->setMinMax(0, 6);
     Knob::get()->setListener(this);
     Knob::get()->setPosition(selectedPos);
-    Knob::get()->setStep(10);
 }
 
 void BlowerView::onPositionChange(int position) {
@@ -29,9 +29,8 @@ void BlowerView::onPositionChange(int position) {
 }
 
 void BlowerView::onButtonPressed() {
-    controller->getCurrentState()->blowerSpeedToSet = selectedPos;
+    controller->getCurrentState()->blowerSpeedToSet = static_cast<BlowerSpeed>(selectedPos);
     controller->getCurrentState()->save();
     controller->getSerialCommunication()->setBlowerSpeed(selectedPos);
-    Knob::get()->setStep(1);
     controller->changeView("mainMenu", 4);
 }

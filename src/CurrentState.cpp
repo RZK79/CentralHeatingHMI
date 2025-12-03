@@ -2,6 +2,7 @@
 #include <Arduino.h>
 #include <EEPROM.h>
 #include "Errors.h"
+#include "BlowerSpeed.h"
 
 CurrentState::CurrentState() {
     EEPROM.begin(512);
@@ -20,8 +21,8 @@ void CurrentState::setDefault() {
     feederPeriodToSet = 3000;
     centralHeatingTemperatureToSet = 55;
     hotWaterTemperatureToSet = 45;
-    blowerSpeedToSet = 0;
-    blowerSpeed = 0;
+    blowerSpeedToSet = BlowerSpeed::RPM_2000;
+    blowerSpeed = BlowerSpeed::RPM_0;
     centralHeatingTemperature = 0;
     hotWaterTemperature = 0;
     fumesTemperature = 0;
