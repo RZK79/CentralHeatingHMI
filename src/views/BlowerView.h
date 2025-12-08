@@ -6,6 +6,8 @@
 
 class BlowerView : public View, public KnobListener {
     int selectedPos;
+    uint8_t submenu;
+    vector<const char*> message;
 public:
     void show() override;
     void reset(int position = 0) override;

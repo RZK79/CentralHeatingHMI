@@ -21,7 +21,9 @@ void CurrentState::setDefault() {
     feederPeriodToSet = 3000;
     centralHeatingTemperatureToSet = 55;
     hotWaterTemperatureToSet = 45;
-    blowerSpeedToSet = BlowerSpeed::RPM_2000;
+    blowerSpeedToSetFiringUp = BlowerSpeed::RPM_2500;
+    blowerSpeedToSetStabilization = BlowerSpeed::RPM_3000;
+    blowerSpeedToSetNormal = BlowerSpeed::RPM_2000;
     blowerSpeed = BlowerSpeed::RPM_0;
     centralHeatingTemperature = 0;
     hotWaterTemperature = 0;
@@ -30,7 +32,7 @@ void CurrentState::setDefault() {
 }
 
 void CurrentState::save() {
-    uint16_t save_marker = 0xcafe;
+    uint16_t save_marker = SAVE_VERSION;
     int offset = 0;
     EEPROM.put(offset, save_marker);
     offset += sizeof(uint16_t);
@@ -42,7 +44,11 @@ void CurrentState::save() {
     offset += sizeof(int);
     EEPROM.put(offset, hotWaterTemperatureToSet);
     offset += sizeof(int);
-    EEPROM.put(offset, blowerSpeedToSet);
+    EEPROM.put(offset, blowerSpeedToSetFiringUp);
+    offset += sizeof(int);
+    EEPROM.put(offset, blowerSpeedToSetStabilization);
+    offset += sizeof(int);
+    EEPROM.put(offset, blowerSpeedToSetNormal);
     EEPROM.commit();
 }
 
@@ -50,7 +56,7 @@ void CurrentState::load() {
     uint16_t save_marker = 0;
     EEPROM.get(0, save_marker);
 
-    if (save_marker != 0xcafe) {
+    if (save_marker != SAVE_VERSION) {
         setDefault();
         save();
     }
@@ -65,5 +71,9 @@ void CurrentState::load() {
     offset += sizeof(int);
     EEPROM.get(offset, hotWaterTemperatureToSet);
     offset += sizeof(int);
-    EEPROM.get(offset, blowerSpeedToSet);
+    EEPROM.get(offset, blowerSpeedToSetFiringUp);
+    offset += sizeof(int);
+    EEPROM.get(offset, blowerSpeedToSetStabilization);
+    offset += sizeof(int);
+    EEPROM.get(offset, blowerSpeedToSetNormal);
 }

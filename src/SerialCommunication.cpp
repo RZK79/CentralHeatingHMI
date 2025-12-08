@@ -27,8 +27,20 @@ void SerialCommunication::setFeederPeriod(int time) {
     Serial.print("#");
 }
 
-void SerialCommunication::setBlowerSpeed(int speed) {
-    Serial.print("*sbs");
+void SerialCommunication::setBlowerSpeedFiringUp(int speed) {
+    Serial.print("*sbsfu");
+    Serial.print(speed);
+    Serial.print("#");
+}
+
+void SerialCommunication::setBlowerSpeedStabilization(int speed) {
+    Serial.print("*sbss");
+    Serial.print(speed);
+    Serial.print("#");
+}
+
+void SerialCommunication::setBlowerSpeedNormal(int speed) {
+    Serial.print("*sbsn");
     Serial.print(speed);
     Serial.print("#");
 }

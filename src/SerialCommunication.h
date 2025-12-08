@@ -20,7 +20,9 @@ public:
 
     void setFeederTime(int time);
     void setFeederPeriod(int time);
-    void setBlowerSpeed(int speed);
+    void setBlowerSpeedFiringUp(int speed);
+    void setBlowerSpeedStabilization(int speed);
+    void setBlowerSpeedNormal(int speed);
     void setCentralHeatingTemperature(int temperature);
     void getCentralHeatingTemperature();
 
