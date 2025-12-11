@@ -41,6 +41,6 @@ void ErrorView::onPositionChange(int position) {
     Lcd::get()->invalidateView();
 }
 
-void ErrorView::onButtonPressed() {
+void ErrorView::onButtonReleased() {
     controller->changeView("mainMenu", 0);
 }

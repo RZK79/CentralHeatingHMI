@@ -78,11 +78,13 @@ void Knob::setStep(int newStep){
 }
 
 void Knob::onButtonPressed(Button* button) {
-
+    if (listener != nullptr) {
+        listener->onButtonPressed();
+    }
 }
 
 void Knob::onButtonReleased(Button* button) {
     if (listener != nullptr) {
-        listener->onButtonPressed();
+        listener->onButtonReleased();
     }
 }

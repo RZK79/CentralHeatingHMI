@@ -11,7 +11,7 @@ public:
     void reset(int position = 0) override;
 
     void onPositionChange(int position) override;
-    void onButtonPressed() override;
+    void onButtonReleased() override;
 };
 
 #endif

@@ -14,7 +14,7 @@ void IOView::onPositionChange(int position) {
     show();
 }
 
-void IOView::onButtonPressed() {
+void IOView::onButtonReleased() {
     controller->changeView("mainMenu", 7);
 }
 

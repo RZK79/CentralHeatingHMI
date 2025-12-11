@@ -46,7 +46,7 @@ void MainMenuView::onPositionChange(int position) {
     show();
 }
 
-void MainMenuView::onButtonPressed() {
+void MainMenuView::onButtonReleased() {
     if (Knob::get()->getPosition() == 1) {
         controller->changeView("firingUp");
     } else if (Knob::get()->getPosition() == 2) {

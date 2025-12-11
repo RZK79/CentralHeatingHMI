@@ -15,7 +15,7 @@ void FiringUpView::onPositionChange(int position) {
     show();
 }
 
-void FiringUpView::onButtonPressed() {
+void FiringUpView::onButtonReleased() {
     if (selectedPos == 0) {
         controller->getSerialCommunication()->turnOn();
         controller->getCurrentState()->isOn = true;

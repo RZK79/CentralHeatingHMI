@@ -1,5 +1,6 @@
 #include <ArduinoHttpClient.h>
 #include <ESP8266WiFi.h>
+#include <Esp.h>
 #include "Config.h"
 #include "Controller.h"
 #include "CurrentState.h"
@@ -42,7 +43,18 @@ void Controller::setup() {
     changeView("mainMenu");
 }
 
+void Controller::updateParameters() {
+    se->setCentralHeatingTemperature(state->centralHeatingTemperatureToSet);
+    se->setHotWaterTemperature(state->hotWaterTemperatureToSet);
+    se->setFeederPeriod(state->feederPeriodToSet);
+    se->setFeederTime(state->feederTimeToSet);
+    se->setBlowerSpeedFiringUp(state->blowerSpeedToSetFiringUp);
+    se->setBlowerSpeedStabilization(state->blowerSpeedToSetStabilization);
+    se->setBlowerSpeedNormal(state->blowerSpeedToSetNormal);
+}
+
 void Controller::changeView(String viewName, int position) {
+    updateParameters();
     currentView = viewName;
     views[currentView]->reset(position);
 }
@@ -89,6 +101,11 @@ void Controller::onTime(Timer* timer) {
             views[currentView]->show();
         }
     }
+}
+
+void Controller::reset() {
+    se->resetArduino();
+    EspClass::reset();
 }
 
 Controller* controller = new Controller();

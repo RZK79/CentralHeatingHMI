@@ -23,7 +23,7 @@ void AlertView::onPositionChange(int position) {
 
 }
 
-void AlertView::onButtonPressed() {
+void AlertView::onButtonReleased() {
     message = (char*)"\0";
     controller->getSerialCommunication()->reset();
     controller->getCurrentState()->error = CentralHeating::Errors::OK;

@@ -32,7 +32,7 @@ void FeederView::onPositionChange(int position) {
     show();
 }
 
-void FeederView::onButtonPressed() {
+void FeederView::onButtonReleased() {
     if(currentParam == 0){
         controller->getCurrentState()->feederTimeToSet = selectedPos;
         currentParam = 1;

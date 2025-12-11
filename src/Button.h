@@ -15,6 +15,7 @@ public:
 };
 
 enum ButtonState{
+    IDLE,
     RELEASED,
     PRESSED
 };

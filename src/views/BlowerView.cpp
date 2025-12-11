@@ -4,11 +4,11 @@
 
 void BlowerView::show() {
     Lcd::get()->screen()->clearDisplay();
-    Lcd::get()->screen()->setCursor(55, 10);
+    Lcd::get()->screen()->setCursor(30, 10);
     Lcd::get()->screen()->setTextSize(1);
     Lcd::get()->screen()->print(message[submenu]);
 
-    Lcd::get()->screen()->setCursor(50, 30);
+    Lcd::get()->screen()->setCursor(35, 30);
     Lcd::get()->screen()->setTextSize(2);
 
     Lcd::get()->screen()->print(BlowerSpeedToValue(static_cast<BlowerSpeed>(selectedPos)));
@@ -23,12 +23,12 @@ void BlowerView::reset(int position) {
     message.push_back("Normalne");
 
     selectedPos = controller->getCurrentState()->blowerSpeedToSetFiringUp;
+    submenu = 0;
 
     Knob::get()->setMinMax(0, 6);
     Knob::get()->setListener(this);
     Knob::get()->setPosition(selectedPos);
 
-    submenu = 0;
 }
 
 void BlowerView::onPositionChange(int position) {
@@ -36,13 +36,17 @@ void BlowerView::onPositionChange(int position) {
     show();
 }
 
-void BlowerView::onButtonPressed() {
+void BlowerView::onButtonReleased() {
     if (submenu == 0) {
         controller->getCurrentState()->blowerSpeedToSetFiringUp = static_cast<BlowerSpeed>(selectedPos);
+        selectedPos = controller->getCurrentState()->blowerSpeedToSetStabilization;
         submenu++;
+        show();
     } else if (submenu == 1) {
         controller->getCurrentState()->blowerSpeedToSetStabilization = static_cast<BlowerSpeed>(selectedPos);
+        selectedPos = controller->getCurrentState()->blowerSpeedToSetNormal;
         submenu++;
+        show();
     } else if (submenu == 2) {
         controller->getCurrentState()->blowerSpeedToSetNormal = static_cast<BlowerSpeed>(selectedPos);
         controller->getCurrentState()->save();

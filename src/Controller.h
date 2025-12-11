@@ -24,7 +24,9 @@ public:
     void changeView(String viewName, int position = 0);
     CurrentState* getCurrentState();
     SerialCommunication* getSerialCommunication();
-
+    void updateParameters();
+    void reset();
+    
     virtual void onTime(Timer* timer);
 };
 
