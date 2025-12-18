@@ -42,5 +42,6 @@ void ErrorView::onPositionChange(int position) {
 }
 
 void ErrorView::onButtonReleased() {
+    controller->getSerialCommunication()->resetError();
     controller->changeView("mainMenu", 0);
 }

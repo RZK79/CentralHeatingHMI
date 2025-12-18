@@ -38,8 +38,12 @@ public:
     void getFumesTemperature();
 
     void getError();
+    void resetError();
 
     void resetArduino();
+
+    void setNTCCHType(int ntcType);
+    void setNTCHWType(int ntcType);
 
     void parseData(char* data);
 };

@@ -28,6 +28,7 @@ Controller::Controller() {
     views["io"] = new IOView();
     views["settings"] = new SettingsView();
     views["error"] = new ErrorView();
+    views["NTC"] = new NTCView();
 }
 
 void Controller::setup() {
@@ -51,6 +52,9 @@ void Controller::updateParameters() {
     se->setBlowerSpeedFiringUp(state->blowerSpeedToSetFiringUp);
     se->setBlowerSpeedStabilization(state->blowerSpeedToSetStabilization);
     se->setBlowerSpeedNormal(state->blowerSpeedToSetNormal);
+    se->setNTCCHType(state->NTCch);
+    se->setNTCHWType(state->NTChw);
+
 }
 
 void Controller::changeView(String viewName, int position) {

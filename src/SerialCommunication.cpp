@@ -93,8 +93,25 @@ void SerialCommunication::getError() {
     Serial.print("*error#");
 }
 
+void SerialCommunication::resetError(){
+    Serial.print("*reseterror#");
+}
+
 void SerialCommunication::resetArduino() {
     Serial.print("*reset#");
+}
+
+
+void SerialCommunication::setNTCCHType(int ntcType){
+    Serial.print("*sntcch");
+    Serial.print(ntcType);
+    Serial.print("#");
+}
+
+void SerialCommunication::setNTCHWType(int ntcType){
+    Serial.print("*sntchw");
+    Serial.print(ntcType);
+    Serial.print("#");
 }
 
 void SerialCommunication::reset() {

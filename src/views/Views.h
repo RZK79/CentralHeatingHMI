@@ -11,6 +11,7 @@
 #include "views/IOView.h"
 #include "views/SettingsView.h"
 #include "views/ErrorView.h"
+#include "views/NTCView.h"
 
 String viewsNames[] = {
     "meinMenu"
@@ -21,7 +22,8 @@ String viewsNames[] = {
     "feeder",
     "io",
     "settings",
-    "error"
+    "error",
+    "NTC"
 };
 
 #endif

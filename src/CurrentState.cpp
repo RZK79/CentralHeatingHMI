@@ -3,6 +3,7 @@
 #include <EEPROM.h>
 #include "Errors.h"
 #include "BlowerSpeed.h"
+#include "NTCType.h"
 
 CurrentState::CurrentState() {
     EEPROM.begin(512);
@@ -29,6 +30,8 @@ void CurrentState::setDefault() {
     hotWaterTemperature = 0;
     fumesTemperature = 0;
     error = CentralHeating::Errors::OK;
+    NTCch = NTC_10k;
+    NTChw = NTC_5k;
 }
 
 void CurrentState::save() {
@@ -49,6 +52,10 @@ void CurrentState::save() {
     EEPROM.put(offset, blowerSpeedToSetStabilization);
     offset += sizeof(int);
     EEPROM.put(offset, blowerSpeedToSetNormal);
+    offset += sizeof(int);
+    EEPROM.put(offset, NTCch);
+    offset += sizeof(int);
+    EEPROM.put(offset, NTChw);
     EEPROM.commit();
 }
 
@@ -76,4 +83,8 @@ void CurrentState::load() {
     EEPROM.get(offset, blowerSpeedToSetStabilization);
     offset += sizeof(int);
     EEPROM.get(offset, blowerSpeedToSetNormal);
+    offset += sizeof(int);
+    EEPROM.get(offset, NTCch);
+    offset += sizeof(int);
+    EEPROM.get(offset, NTChw);
 }

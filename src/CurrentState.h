@@ -2,7 +2,7 @@
 #define _CURRENTSTATE_H_
 #include "BlowerSpeed.h"
 
-#define SAVE_VERSION    0x0001
+#define SAVE_VERSION    0x0002
 
 class CurrentState {
 public:
@@ -26,6 +26,8 @@ public:
     int hotWaterTemperature;
     int fumesTemperature;
     int error;
+    int NTCch;
+    int NTChw;
 
     void setDefault();
 
