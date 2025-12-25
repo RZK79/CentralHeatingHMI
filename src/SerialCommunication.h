@@ -45,6 +45,14 @@ public:
     void setNTCCHType(int ntcType);
     void setNTCHWType(int ntcType);
 
+    void turnCentralHeatingPumpOn();
+    void turnCentralHeatingPumpOff();
+    void turnHotWaterPumpOn();
+    void turnHotWaterPumpOff();
+
+    void setFiringUpTime(int time);
+    void setStabilizationTime(int time);
+
     void parseData(char* data);
 };
 

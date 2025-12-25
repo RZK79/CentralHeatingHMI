@@ -93,7 +93,7 @@ void SerialCommunication::getError() {
     Serial.print("*error#");
 }
 
-void SerialCommunication::resetError(){
+void SerialCommunication::resetError() {
     Serial.print("*reseterror#");
 }
 
@@ -102,15 +102,43 @@ void SerialCommunication::resetArduino() {
 }
 
 
-void SerialCommunication::setNTCCHType(int ntcType){
+void SerialCommunication::setNTCCHType(int ntcType) {
     Serial.print("*sntcch");
     Serial.print(ntcType);
     Serial.print("#");
 }
 
-void SerialCommunication::setNTCHWType(int ntcType){
+void SerialCommunication::setNTCHWType(int ntcType) {
     Serial.print("*sntchw");
     Serial.print(ntcType);
+    Serial.print("#");
+}
+
+void SerialCommunication::turnCentralHeatingPumpOn() {
+    Serial.print("*chpumpon#");
+}
+
+void SerialCommunication::turnCentralHeatingPumpOff() {
+    Serial.print("*chpumpoff#");
+}
+
+void SerialCommunication::turnHotWaterPumpOn() {
+    Serial.print("*hwpumpon#");
+}
+
+void SerialCommunication::turnHotWaterPumpOff() {
+    Serial.print("*hwpumpoff#");
+}
+
+void SerialCommunication::setFiringUpTime(int time) {
+    Serial.print("*sfut");
+    Serial.print(time);
+    Serial.print("#");
+}
+
+void SerialCommunication::setStabilizationTime(int time) {
+    Serial.print("*sst");
+    Serial.print(time);
     Serial.print("#");
 }
 
@@ -122,7 +150,6 @@ void SerialCommunication::reset() {
 
 void SerialCommunication::serialEvent() {
     if (Serial.available()) {
-        delay(2);
         while (Serial.available() > 0) {
             char c = Serial.read();
             if (SerialCommunication::recvInProgress) {

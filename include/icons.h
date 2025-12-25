@@ -9,5 +9,6 @@
 #include "io.h"
 #include "gear.h"
 #include "wifi.h"
+#include "timer.h"
 
 #endif

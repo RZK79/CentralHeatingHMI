@@ -21,10 +21,10 @@ void FeederView::show() {
 void FeederView::reset(int position) {
     selectedPos = controller->getCurrentState()->feederTimeToSet;
     currentParam = 0;
-    Knob::get()->setMinMax(800, 2000);
+    Knob::get()->setMinMax(0, 10000);
     Knob::get()->setListener(this);
     Knob::get()->setPosition(selectedPos);
-    Knob::get()->setStep(10);
+    Knob::get()->setStep(100);
 }
 
 void FeederView::onPositionChange(int position) {

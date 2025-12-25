@@ -25,7 +25,7 @@ void BlowerView::reset(int position) {
     selectedPos = controller->getCurrentState()->blowerSpeedToSetFiringUp;
     submenu = 0;
 
-    Knob::get()->setMinMax(0, 6);
+    Knob::get()->setMinMax(0, 10);
     Knob::get()->setListener(this);
     Knob::get()->setPosition(selectedPos);
 

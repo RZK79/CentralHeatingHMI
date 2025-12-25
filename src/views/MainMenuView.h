@@ -16,6 +16,7 @@ class MainMenuView : public View, public KnobListener {
     void showFeeder();
     void showSettings();
     void showIO();
+    void showTiming();
 public:
     void show() override;
     void reset(int position = 0) override;

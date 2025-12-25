@@ -2,7 +2,7 @@
 #define _CURRENTSTATE_H_
 #include "BlowerSpeed.h"
 
-#define SAVE_VERSION    0x0002
+#define SAVE_VERSION    0x0003
 
 class CurrentState {
 public:
@@ -28,7 +28,9 @@ public:
     int error;
     int NTCch;
     int NTChw;
-
+    int firingUpTimeToSet;
+    int stabilizationTimeToSet;
+    
     void setDefault();
 
     void save();

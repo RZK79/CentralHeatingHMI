@@ -6,7 +6,7 @@
 #include "Debug.h"
 
 void MainMenuView::reset(int position) {
-    Knob::get()->setMinMax(0, 7);
+    Knob::get()->setMinMax(0, 8);
     Knob::get()->setListener(this);
     Knob::get()->setPosition(position);
 }
@@ -61,6 +61,8 @@ void MainMenuView::onButtonReleased() {
         controller->changeView("settings");
     } else if (Knob::get()->getPosition() == 7) {
         controller->changeView("io");
+    } else if (Knob::get()->getPosition() == 8) {
+        controller->changeView("timing");
     }
 }
 
@@ -144,6 +146,13 @@ void MainMenuView::showIO() {
     Lcd::get()->screen()->drawXBitmap(48, 27, io_bits, io_width, io_height, SSD1306_WHITE);
 }
 
+void MainMenuView::showTiming() {
+    Lcd::get()->screen()->clearDisplay();
+    Lcd::get()->screen()->setCursor(35, 7);
+    Lcd::get()->screen()->print("Czasy");
+    Lcd::get()->screen()->drawXBitmap(48, 27, timer_bits, timer_width, timer_height, SSD1306_WHITE);
+}
+
 void MainMenuView::show() {
     Lcd::get()->screen()->setTextSize(2);
     if (Knob::get()->getPosition() == 0) {
@@ -162,6 +171,8 @@ void MainMenuView::show() {
         showSettings();
     } else if (Knob::get()->getPosition() == 7) {
         showIO();
+    } else if (Knob::get()->getPosition() == 8) {
+        showTiming();
     }
 
     Debug::State();
