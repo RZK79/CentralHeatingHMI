@@ -19,7 +19,7 @@ void FeederView::show() {
 }
 
 void FeederView::reset(int position) {
-    selectedPos = controller->getCurrentState()->feederTimeToSet;
+    selectedPos = Controller::get()->getCurrentState()->feederTimeToSet;
     currentParam = 0;
     Knob::get()->setMinMax(0, 10000);
     Knob::get()->setListener(this);
@@ -34,16 +34,16 @@ void FeederView::onPositionChange(int position) {
 
 void FeederView::onButtonReleased() {
     if(currentParam == 0){
-        controller->getCurrentState()->feederTimeToSet = selectedPos;
+        Controller::get()->getCurrentState()->feederTimeToSet = selectedPos;
         currentParam = 1;
-        selectedPos = controller->getCurrentState()->feederPeriodToSet;
+        selectedPos = Controller::get()->getCurrentState()->feederPeriodToSet;
         Knob::get()->setPosition(selectedPos);
     }else{
-        controller->getCurrentState()->feederPeriodToSet = selectedPos;
-        controller->getCurrentState()->save();
-        controller->getSerialCommunication()->setFeederTime(controller->getCurrentState()->feederTimeToSet);
-        controller->getSerialCommunication()->setFeederPeriod(controller->getCurrentState()->feederPeriodToSet);
+        Controller::get()->getCurrentState()->feederPeriodToSet = selectedPos;
+        Controller::get()->getCurrentState()->save();
+        Controller::get()->getSerialCommunication()->setFeederTime(Controller::get()->getCurrentState()->feederTimeToSet);
+        Controller::get()->getSerialCommunication()->setFeederPeriod(Controller::get()->getCurrentState()->feederPeriodToSet);
         Knob::get()->setStep(1);
-        controller->changeView("mainMenu", 5);
+        Controller::get()->changeView("mainMenu", 5);
     }
 }

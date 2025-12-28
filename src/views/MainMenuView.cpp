@@ -15,20 +15,20 @@ void MainMenuView::pumpStatus() {
     Lcd::get()->screen()->setTextSize(1);
     Lcd::get()->screen()->setCursor(1, 55);
     Lcd::get()->screen()->print("CO");
-    if (controller->getCurrentState()->isCentralHeatingPumpOn) {
+    if (Controller::get()->getCurrentState()->isCentralHeatingPumpOn) {
         Lcd::get()->screen()->fillCircle(20, 58, 3, SSD1306_WHITE);
     } else {
         Lcd::get()->screen()->drawCircle(20, 58, 3, SSD1306_WHITE);
     }
     Lcd::get()->screen()->setCursor(90, 55);
     Lcd::get()->screen()->print("CWU");
-    if (controller->getCurrentState()->isHotWaterPumpOn) {
+    if (Controller::get()->getCurrentState()->isHotWaterPumpOn) {
         Lcd::get()->screen()->fillCircle(115, 58, 3, SSD1306_WHITE);
     } else {
         Lcd::get()->screen()->drawCircle(115, 58, 3, SSD1306_WHITE);
     }
 
-    if (controller->getCurrentState()->wifiConnected) {
+    if (Controller::get()->getCurrentState()->wifiConnected) {
         Lcd::get()->screen()->drawBitmap(120, 0, wifi_bits, wifi_width, wifi_height, SSD1306_WHITE);
     } else {
         if (wifi_blinking) {
@@ -48,21 +48,21 @@ void MainMenuView::onPositionChange(int position) {
 
 void MainMenuView::onButtonReleased() {
     if (Knob::get()->getPosition() == 1) {
-        controller->changeView("firingUp");
+        Controller::get()->changeView("firingUp");
     } else if (Knob::get()->getPosition() == 2) {
-        controller->changeView("hotWater");
+        Controller::get()->changeView("hotWater");
     } else if (Knob::get()->getPosition() == 3) {
-        controller->changeView("centralHeating");
+        Controller::get()->changeView("centralHeating");
     } else if (Knob::get()->getPosition() == 4) {
-        controller->changeView("blower");
+        Controller::get()->changeView("blower");
     } else if (Knob::get()->getPosition() == 5) {
-        controller->changeView("feeder");
+        Controller::get()->changeView("feeder");
     } else if (Knob::get()->getPosition() == 6) {
-        controller->changeView("settings");
+        Controller::get()->changeView("settings");
     } else if (Knob::get()->getPosition() == 7) {
-        controller->changeView("io");
+        Controller::get()->changeView("io");
     } else if (Knob::get()->getPosition() == 8) {
-        controller->changeView("timing");
+        Controller::get()->changeView("timing");
     }
 }
 
@@ -73,21 +73,21 @@ void MainMenuView::showInfo() {
 
     Lcd::get()->screen()->setCursor(5, 5);
     String txt = String("temp CO: ");
-    txt.concat(controller->getCurrentState()->centralHeatingTemperature);
+    txt.concat(Controller::get()->getCurrentState()->centralHeatingTemperature);
     txt.concat((char)0xf8);
     txt.concat('C');
     Lcd::get()->screen()->print(txt);
 
     Lcd::get()->screen()->setCursor(5, 16);
     txt = String("temp CWU: ");
-    txt.concat(controller->getCurrentState()->hotWaterTemperature);
+    txt.concat(Controller::get()->getCurrentState()->hotWaterTemperature);
     txt.concat((char)0xf8);
     txt.concat('C');
     Lcd::get()->screen()->print(txt);
 
     Lcd::get()->screen()->setCursor(5, 27);
     txt = String("temp spalin: ");
-    txt.concat(controller->getCurrentState()->fumesTemperature);
+    txt.concat(Controller::get()->getCurrentState()->fumesTemperature);
     txt.concat((char)0xf8);
     txt.concat('C');
     Lcd::get()->screen()->print(txt);

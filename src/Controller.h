@@ -9,14 +9,18 @@
 #include "SerialCommunication.h"
 
 class Controller : public TimerEventListener {
+    static Controller* instance;
+
     Timer* updateDataTimer;
+    Timer* updateTempTimer;
 
     std::map<String, View*> views;
     String currentView;
     CurrentState* state;
     SerialCommunication* se;
-public:
     Controller();
+public:
+    static Controller* get();
 
     void setup();
     void loop();
@@ -29,6 +33,4 @@ public:
     
     virtual void onTime(Timer* timer);
 };
-
-extern Controller* controller;
 #endif

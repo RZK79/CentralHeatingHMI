@@ -22,7 +22,7 @@ void BlowerView::reset(int position) {
     message.push_back("Stabilizacja");
     message.push_back("Normalne");
 
-    selectedPos = controller->getCurrentState()->blowerSpeedToSetFiringUp;
+    selectedPos = Controller::get()->getCurrentState()->blowerSpeedToSetFiringUp;
     submenu = 0;
 
     Knob::get()->setMinMax(0, 10);
@@ -38,23 +38,23 @@ void BlowerView::onPositionChange(int position) {
 
 void BlowerView::onButtonReleased() {
     if (submenu == 0) {
-        controller->getCurrentState()->blowerSpeedToSetFiringUp = static_cast<BlowerSpeed>(selectedPos);
-        selectedPos = controller->getCurrentState()->blowerSpeedToSetStabilization;
+        Controller::get()->getCurrentState()->blowerSpeedToSetFiringUp = static_cast<BlowerSpeed>(selectedPos);
+        selectedPos = Controller::get()->getCurrentState()->blowerSpeedToSetStabilization;
         submenu++;
         show();
     } else if (submenu == 1) {
-        controller->getCurrentState()->blowerSpeedToSetStabilization = static_cast<BlowerSpeed>(selectedPos);
-        selectedPos = controller->getCurrentState()->blowerSpeedToSetNormal;
+        Controller::get()->getCurrentState()->blowerSpeedToSetStabilization = static_cast<BlowerSpeed>(selectedPos);
+        selectedPos = Controller::get()->getCurrentState()->blowerSpeedToSetNormal;
         submenu++;
         show();
     } else if (submenu == 2) {
-        controller->getCurrentState()->blowerSpeedToSetNormal = static_cast<BlowerSpeed>(selectedPos);
-        controller->getCurrentState()->save();
+        Controller::get()->getCurrentState()->blowerSpeedToSetNormal = static_cast<BlowerSpeed>(selectedPos);
+        Controller::get()->getCurrentState()->save();
 
-        controller->getSerialCommunication()->setBlowerSpeedFiringUp(controller->getCurrentState()->blowerSpeedToSetFiringUp);
-        controller->getSerialCommunication()->setBlowerSpeedStabilization(controller->getCurrentState()->blowerSpeedToSetStabilization);
-        controller->getSerialCommunication()->setBlowerSpeedNormal(controller->getCurrentState()->blowerSpeedToSetNormal);
+        Controller::get()->getSerialCommunication()->setBlowerSpeedFiringUp(Controller::get()->getCurrentState()->blowerSpeedToSetFiringUp);
+        Controller::get()->getSerialCommunication()->setBlowerSpeedStabilization(Controller::get()->getCurrentState()->blowerSpeedToSetStabilization);
+        Controller::get()->getSerialCommunication()->setBlowerSpeedNormal(Controller::get()->getCurrentState()->blowerSpeedToSetNormal);
 
-        controller->changeView("mainMenu", 4);
+        Controller::get()->changeView("mainMenu", 4);
     }
 }

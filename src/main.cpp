@@ -1,11 +1,16 @@
-#include <Arduino.h>
 #include "Controller.h"
+#include <Arduino.h>
 
-void setup() {
-    Serial.begin(9600);
-    controller->setup();
+void setup()
+{
+    Controller::get()->setup();
 }
 
-void loop() {
-    controller->loop();
+void loop()
+{
+    Controller::get()->loop();
+}
+
+void serialEvent(){
+    Controller::get()->getSerialCommunication()->serialEvent();
 }

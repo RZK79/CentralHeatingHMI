@@ -6,6 +6,7 @@
 
 class CentralHeatingView : public View, public KnobListener {
     int selectedPos;
+    int submenu;
 public:
     void show() override;
     void reset(int position = 0) override;

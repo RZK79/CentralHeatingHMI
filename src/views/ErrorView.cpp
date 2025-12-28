@@ -22,7 +22,7 @@ void ErrorView::onPositionChange(int position) {
 
     Lcd::get()->screen()->setCursor(0, 37);
     const char* msg = "";
-    switch (controller->getCurrentState()->error) {
+    switch (Controller::get()->getCurrentState()->error) {
         case CentralHeating::Errors::FIRING_UP_TIMEOUT:
             msg = "Zbyt dlugi czas rozpalania!";
             break;
@@ -42,6 +42,6 @@ void ErrorView::onPositionChange(int position) {
 }
 
 void ErrorView::onButtonReleased() {
-    controller->getSerialCommunication()->resetError();
-    controller->changeView("mainMenu", 0);
+    Controller::get()->getSerialCommunication()->resetError();
+    Controller::get()->changeView("mainMenu", 0);
 }

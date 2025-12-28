@@ -37,16 +37,16 @@ void SettingsView::onPositionChange(int position) {
 
 void SettingsView::onButtonReleased() {
     if (Knob::get()->getPosition() == 0) {
-        controller->changeView("NTC");
+        Controller::get()->changeView("NTC");
     } else if (Knob::get()->getPosition() == 1) {
-        controller->reset();
+        Controller::get()->reset();
     } else if (Knob::get()->getPosition() == 2) {
-        controller->getSerialCommunication()->resetArduino();
+        Controller::get()->getSerialCommunication()->resetArduino();
     } else if (Knob::get()->getPosition() == 3) {
-        controller->getCurrentState()->setDefault();
-        controller->getCurrentState()->save();
+        Controller::get()->getCurrentState()->setDefault();
+        Controller::get()->getCurrentState()->save();
     } else if (Knob::get()->getPosition() == 4) {
-        controller->changeView("mainMenu", 6);
+        Controller::get()->changeView("mainMenu", 6);
     }
     Lcd::get()->screen()->setTextColor(SSD1306_WHITE, SSD1306_BLACK);
 }

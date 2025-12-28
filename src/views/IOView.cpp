@@ -15,7 +15,7 @@ void IOView::onPositionChange(int position) {
 }
 
 void IOView::onButtonReleased() {
-    controller->changeView("mainMenu", 7);
+    Controller::get()->changeView("mainMenu", 7);
 }
 
 void IOView::show() {
@@ -26,35 +26,35 @@ void IOView::show() {
     Lcd::get()->screen()->setCursor(0, 0);
 
     Lcd::get()->screen()->println("pompa CO: ");
-    if (controller->getCurrentState()->isCentralHeatingPumpOn) {
+    if (Controller::get()->getCurrentState()->isCentralHeatingPumpOn) {
         Lcd::get()->screen()->fillCircle(75, 3, 3, SSD1306_WHITE);
     } else {
         Lcd::get()->screen()->drawCircle(75, 3, 3, SSD1306_WHITE);
     }
 
     Lcd::get()->screen()->println("pompa CWU: ");
-    if (controller->getCurrentState()->isHotWaterPumpOn) {
+    if (Controller::get()->getCurrentState()->isHotWaterPumpOn) {
         Lcd::get()->screen()->fillCircle(75, 11, 3, SSD1306_WHITE);
     } else {
         Lcd::get()->screen()->drawCircle(75, 11, 3, SSD1306_WHITE);
     }
 
     Lcd::get()->screen()->println("podajnik: ");
-    if(controller->getCurrentState()->isFeederOn){
+    if(Controller::get()->getCurrentState()->isFeederOn){
         Lcd::get()->screen()->fillCircle(75, 19, 3, SSD1306_WHITE);
     }else{
         Lcd::get()->screen()->drawCircle(75, 19, 3, SSD1306_WHITE);
     }
     
     Lcd::get()->screen()->println("grzalka: ");
-    if(controller->getCurrentState()->lighter){
+    if(Controller::get()->getCurrentState()->lighter){
         Lcd::get()->screen()->fillCircle(75, 27, 3, SSD1306_WHITE);
     }else{
         Lcd::get()->screen()->drawCircle(75, 27, 3, SSD1306_WHITE);
     }
     
     Lcd::get()->screen()->print("wentylator: ");
-    Lcd::get()->screen()->println(controller->getCurrentState()->blowerSpeed);
+    Lcd::get()->screen()->println(Controller::get()->getCurrentState()->blowerSpeed);
     
     Lcd::get()->screen()->print("AP: ");
     Lcd::get()->screen()->println(WiFi.SSID());

@@ -6,6 +6,7 @@
 
 class TimingView : public View, public KnobListener {
     int currentParam;
+    int selectedPos;
 public:
     void show() override;
     void reset(int position = 0) override;

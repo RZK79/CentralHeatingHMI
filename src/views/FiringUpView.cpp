@@ -17,15 +17,15 @@ void FiringUpView::onPositionChange(int position) {
 
 void FiringUpView::onButtonReleased() {
     if (selectedPos == 0) {
-        controller->getSerialCommunication()->turnOn();
-        controller->getCurrentState()->isOn = true;
+        Controller::get()->getSerialCommunication()->turnOn();
+        Controller::get()->getCurrentState()->isOn = true;
     } else {
-        controller->getSerialCommunication()->turnOff();
-        controller->getCurrentState()->isOn = false;
+        Controller::get()->getSerialCommunication()->turnOff();
+        Controller::get()->getCurrentState()->isOn = false;
     }
 
     Lcd::get()->screen()->setTextColor(SSD1306_WHITE, SSD1306_BLACK);
-    controller->changeView("mainMenu", 1);
+    Controller::get()->changeView("mainMenu", 1);
 }
 
 void FiringUpView::show() {

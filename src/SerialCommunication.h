@@ -9,11 +9,11 @@ class SerialCommunication {
     int i;
     const char start = '*';
     const char end = '#';
+    void init();
 public:
     SerialCommunication();
-    
     void serialEvent();
-    void reset();
+    void parseData(char* data);
 
     void turnOn();
     void turnOff();
@@ -53,7 +53,6 @@ public:
     void setFiringUpTime(int time);
     void setStabilizationTime(int time);
 
-    void parseData(char* data);
 };
 
 #endif

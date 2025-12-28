@@ -41,7 +41,7 @@ void NTCView::show() {
 
 void NTCView::reset(int position) {
     currentNTC = 0;
-    ntcType = controller->getCurrentState()->NTCch;
+    ntcType = Controller::get()->getCurrentState()->NTCch;
     Knob::get()->setMinMax(0, NTCTypeSize);
     Knob::get()->setListener(this);
     Knob::get()->setPosition(position);
@@ -53,18 +53,18 @@ void NTCView::onPositionChange(int position) {
 
 void NTCView::onButtonReleased() {
     if (currentNTC == 0) {
-        controller->getCurrentState()->NTCch = ntcType;
-        ntcType = controller->getCurrentState()->NTChw;
+        Controller::get()->getCurrentState()->NTCch = ntcType;
+        ntcType = Controller::get()->getCurrentState()->NTChw;
         currentNTC++;
         show();
     } else if (currentNTC == 1) {
-        controller->getCurrentState()->NTChw = ntcType;
-        controller->getCurrentState()->save();
+        Controller::get()->getCurrentState()->NTChw = ntcType;
+        Controller::get()->getCurrentState()->save();
 
-        controller->getSerialCommunication()->setNTCCHType(controller->getCurrentState()->NTCch);
-        controller->getSerialCommunication()->setNTCHWType(controller->getCurrentState()->NTChw);
+        Controller::get()->getSerialCommunication()->setNTCCHType(Controller::get()->getCurrentState()->NTCch);
+        Controller::get()->getSerialCommunication()->setNTCHWType(Controller::get()->getCurrentState()->NTChw);
 
         Lcd::get()->screen()->setTextSize(1);
-        controller->changeView("settings");
+        Controller::get()->changeView("settings");
     }
 }

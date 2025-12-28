@@ -1,19 +1,23 @@
 #include "CurrentState.h"
+#include "BlowerSpeed.h"
+#include "Config.h"
+#include "Errors.h"
+#include "NTCType.h"
 #include <Arduino.h>
 #include <EEPROM.h>
-#include "Errors.h"
-#include "BlowerSpeed.h"
-#include "NTCType.h"
 
-CurrentState::CurrentState() {
+CurrentState::CurrentState()
+{
     EEPROM.begin(512);
     setDefault();
     load();
 }
 
-void CurrentState::setDefault() {
+void CurrentState::setDefault()
+{
     wifiConnected = false;
-    isOn = false;;
+    isOn = false;
+    ;
     isCentralHeatingPumpOn = false;
     isHotWaterPumpOn = false;
     lighter = false;
@@ -32,9 +36,12 @@ void CurrentState::setDefault() {
     error = CentralHeating::Errors::OK;
     NTCch = NTC_10k;
     NTChw = NTC_5k;
+    firingUpTimeToSet = 4 * MINUTE;
+    stabilizationTimeToSet = 3 * MINUTE;
 }
 
-void CurrentState::save() {
+void CurrentState::save()
+{
     uint16_t save_marker = SAVE_VERSION;
     int offset = 0;
     EEPROM.put(offset, save_marker);
@@ -56,10 +63,15 @@ void CurrentState::save() {
     EEPROM.put(offset, NTCch);
     offset += sizeof(int);
     EEPROM.put(offset, NTChw);
+    offset += sizeof(int);
+    EEPROM.put(offset, firingUpTimeToSet);
+    offset += sizeof(int);
+    EEPROM.put(offset, stabilizationTimeToSet);
     EEPROM.commit();
 }
 
-void CurrentState::load() {
+void CurrentState::load()
+{
     uint16_t save_marker = 0;
     EEPROM.get(0, save_marker);
 
@@ -87,4 +99,8 @@ void CurrentState::load() {
     EEPROM.get(offset, NTCch);
     offset += sizeof(int);
     EEPROM.get(offset, NTChw);
+    offset += sizeof(int);
+    EEPROM.get(offset, firingUpTimeToSet);
+    offset += sizeof(int);
+    EEPROM.get(offset, stabilizationTimeToSet);
 }
