@@ -98,18 +98,6 @@ void Controller::loop()
     updateTempTimer->update();
     Knob::get()->update();
     Lcd::get()->updateView();
-
-    if (!state->wifiConnected && WiFi.status() == WL_CONNECTED) {
-        state->wifiConnected = true;
-    }
-
-    if (state->error != CentralHeating::Errors::OK) {
-        changeView("error");
-    }
-
-    if (currentView == "mainMenu" || currentView == "io") {
-        views[currentView]->show();
-    }
 }
 
 void Controller::onTime(Timer* timer)
@@ -120,12 +108,25 @@ void Controller::onTime(Timer* timer)
         se->getFeeder();
         se->getLighter();
         se->getBlowerSpeed();
-        
+
         se->getError();
-    }else if(timer == updateTempTimer){
+    } else if (timer == updateTempTimer) {
+        se->serialEvent();
         se->getHotWaterTemperature();
         se->getFumesTemperature();
         se->getCentralHeatingTemperature();
+
+        if (!state->wifiConnected && WiFi.status() == WL_CONNECTED) {
+            state->wifiConnected = true;
+        }
+
+        if (state->error != CentralHeating::Errors::OK) {
+            changeView("error");
+        }
+
+        if (currentView == "mainMenu" || currentView == "io") {
+            views[currentView]->show();
+        }
     }
 }
 

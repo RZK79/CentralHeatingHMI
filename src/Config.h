@@ -12,7 +12,7 @@
 #define LCD_SDA         SDA
 #define LCD_SCK         SCL
 
-#define UPDATE_DATA_TIME 5000
-#define UPDATE_TEMPERATURE_TIME 1000
+#define UPDATE_DATA_TIME 1000
+#define UPDATE_TEMPERATURE_TIME 500
 
 #endif

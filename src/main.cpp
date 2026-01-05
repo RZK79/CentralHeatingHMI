@@ -10,7 +10,3 @@ void loop()
 {
     Controller::get()->loop();
 }
-
-void serialEvent(){
-    Controller::get()->getSerialCommunication()->serialEvent();
-}
