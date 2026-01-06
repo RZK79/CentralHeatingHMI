@@ -50,6 +50,7 @@ void Controller::setup()
     WiFi.begin(WIFI_AP, WIFI_PASS);
 
     state->load();
+    updateParameters();
 
     updateDataTimer = new Timer();
     updateDataTimer->addEventListener(this);
@@ -108,7 +109,6 @@ void Controller::onTime(Timer* timer)
         se->getFeeder();
         se->getLighter();
         se->getBlowerSpeed();
-
         se->getError();
     } else if (timer == updateTempTimer) {
         se->serialEvent();
