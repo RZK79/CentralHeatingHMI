@@ -42,12 +42,13 @@ void NTCView::show() {
 void NTCView::reset(int position) {
     currentNTC = 0;
     ntcType = Controller::get()->getCurrentState()->NTCch;
-    Knob::get()->setMinMax(0, NTCTypeSize);
+    Knob::get()->setMinMax(0, NTCTypeSize - 1);
     Knob::get()->setListener(this);
-    Knob::get()->setPosition(position);
+    Knob::get()->setPosition(ntcType);
 }
 
 void NTCView::onPositionChange(int position) {
+    ntcType = position;
     show();
 }
 
