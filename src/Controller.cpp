@@ -11,7 +11,7 @@
 #include "views/Views.h"
 #include "wifi_credentials.h"
 
-char serverAddress[] = "192.168.0.3"; // server address
+char serverAddress[] = "https://dklog.webd.pro/"; // server address
 int port = 443;
 
 Controller* Controller::instance = nullptr;
