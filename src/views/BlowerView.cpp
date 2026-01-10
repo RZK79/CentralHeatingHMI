@@ -10,7 +10,6 @@ void BlowerView::show() {
 
     Lcd::get()->screen()->setCursor(35, 30);
     Lcd::get()->screen()->setTextSize(2);
-
     Lcd::get()->screen()->print(BlowerSpeedToValue(static_cast<BlowerSpeed>(selectedPos)));
 
     Lcd::get()->invalidateView();
@@ -40,11 +39,13 @@ void BlowerView::onButtonReleased() {
     if (submenu == 0) {
         Controller::get()->getCurrentState()->blowerSpeedToSetFiringUp = static_cast<BlowerSpeed>(selectedPos);
         selectedPos = Controller::get()->getCurrentState()->blowerSpeedToSetStabilization;
+        Knob::get()->setPosition(selectedPos);
         submenu++;
         show();
     } else if (submenu == 1) {
         Controller::get()->getCurrentState()->blowerSpeedToSetStabilization = static_cast<BlowerSpeed>(selectedPos);
         selectedPos = Controller::get()->getCurrentState()->blowerSpeedToSetNormal;
+        Knob::get()->setPosition(selectedPos);
         submenu++;
         show();
     } else if (submenu == 2) {

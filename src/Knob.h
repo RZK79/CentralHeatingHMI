@@ -25,8 +25,8 @@ class Knob : public ButtonListener {
     KnobListener* listener;
 
     Button* b;
-    virtual void onButtonPressed(Button* button);
-    virtual void onButtonReleased(Button* button);
+    virtual void onButtonPressed(Button* button) override;
+    virtual void onButtonReleased(Button* button) override;
 
     int A_state;
     int A_prev_state;

@@ -36,6 +36,8 @@ void SettingsView::onPositionChange(int position) {
 }
 
 void SettingsView::onButtonReleased() {
+    Lcd::get()->screen()->setTextColor(SSD1306_WHITE, SSD1306_BLACK);
+    
     if (Knob::get()->getPosition() == 0) {
         Controller::get()->changeView("NTC");
     } else if (Knob::get()->getPosition() == 1) {
@@ -48,5 +50,4 @@ void SettingsView::onButtonReleased() {
     } else if (Knob::get()->getPosition() == 4) {
         Controller::get()->changeView("mainMenu", 6);
     }
-    Lcd::get()->screen()->setTextColor(SSD1306_WHITE, SSD1306_BLACK);
 }
