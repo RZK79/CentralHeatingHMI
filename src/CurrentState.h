@@ -1,6 +1,5 @@
 #ifndef _CURRENTSTATE_H_
 #define _CURRENTSTATE_H_
-#include "BlowerSpeed.h"
 
 #define SAVE_VERSION    0x0004
 

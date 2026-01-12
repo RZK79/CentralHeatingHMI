@@ -1,5 +1,4 @@
 #include "SerialCommunication.h"
-#include "BlowerSpeed.h"
 #include "Controller.h"
 #include "CurrentState.h"
 
@@ -54,8 +53,7 @@ void SerialCommunication::parseData(char* data)
     } else if (strncmp("gl", data, 2) == 0) {
         Controller::get()->getCurrentState()->lighter = (bool)atoi(&data[2]) == 0 ? false : true;
     } else if (strncmp("gbs", data, 3) == 0) {
-        BlowerSpeed speed = (BlowerSpeed)atoi(&data[3]);
-        Controller::get()->getCurrentState()->blowerSpeed = speed;
+        Controller::get()->getCurrentState()->blowerSpeed = atoi(&data[3]);
     } else if (strncmp("gf", data, 2) == 0) {
         Controller::get()->getCurrentState()->isFeederOn = (bool)atoi(&data[2]);
     } else if (strncmp("error", data, 5) == 0) {

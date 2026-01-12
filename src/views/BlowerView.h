@@ -1,8 +1,11 @@
 #ifndef _BLOWERVIEW_H_
 #define _BLOWERVIEW_H_
 
+#include <vector>
 #include "View.h"
 #include "Knob.h"
+
+using namespace std;
 
 class BlowerView : public View, public KnobListener {
     int selectedPos;

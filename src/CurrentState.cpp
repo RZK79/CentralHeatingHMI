@@ -1,5 +1,4 @@
 #include "CurrentState.h"
-#include "BlowerSpeed.h"
 #include "Config.h"
 #include "Errors.h"
 #include "NTCType.h"
@@ -26,10 +25,10 @@ void CurrentState::setDefault()
     feederPeriodToSet = 5000;
     centralHeatingTemperatureToSet = 55;
     hotWaterTemperatureToSet = 45;
-    blowerSpeedToSetFiringUp = BlowerSpeed::RPM_20;
-    blowerSpeedToSetStabilization = BlowerSpeed::RPM_30;
-    blowerSpeedToSetNormal = BlowerSpeed::RPM_20;
-    blowerSpeed = BlowerSpeed::RPM_0;
+    blowerSpeedToSetFiringUp = 70;
+    blowerSpeedToSetStabilization = 50;
+    blowerSpeedToSetNormal = 30;
+    blowerSpeed = 0;
     centralHeatingTemperature = 0;
     hotWaterTemperature = 0;
     fumesTemperature = 0;
