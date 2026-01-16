@@ -11,7 +11,7 @@
 #include "views/Views.h"
 #include "wifi_credentials.h"
 
-char serverAddress[] = "https://dklog.webd.pro/"; // server address
+char serverAddress[] = "http://dklog.webd.pro/"; // server address
 int port = 443;
 
 Controller* Controller::instance = nullptr;
@@ -42,6 +42,8 @@ Controller::Controller()
     views["error"] = new ErrorView();
     views["NTC"] = new NTCView();
     views["timing"] = new TimingView();
+
+    ds = new DataSender();
 }
 
 void Controller::setup()
@@ -95,6 +97,7 @@ SerialCommunication* Controller::getSerialCommunication()
 
 void Controller::loop()
 {
+    ds->update();
     updateDataTimer->update();
     updateTempTimer->update();
     Knob::get()->update();

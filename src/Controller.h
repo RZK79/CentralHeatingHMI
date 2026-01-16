@@ -7,6 +7,7 @@
 #include "View.h"
 #include "CurrentState.h"
 #include "SerialCommunication.h"
+#include "DataSender.h"
 
 class Controller : public TimerEventListener {
     static Controller* instance;
@@ -18,6 +19,7 @@ class Controller : public TimerEventListener {
     String currentView;
     CurrentState* state;
     SerialCommunication* se;
+    DataSender* ds;
     Controller();
 public:
     static Controller* get();
