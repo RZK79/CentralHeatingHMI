@@ -40,7 +40,10 @@ void DataSender::send() {
     WiFiClient client;
     HTTPClient http;
     char server[200];
-    sprintf(server, "%sstore.php?cht=%d&hwt=%d&ft=%d", serverAddress, Controller::get()->getCurrentState()->centralHeatingTemperature, Controller::get()->getCurrentState()->hotWaterTemperature, Controller::get()->getCurrentState()->fumesTemperature);
+    sprintf(server, "%sstore.php?cht=%d&hwt=%d&ft=%d", serverAddress,
+            Controller::get()->getCurrentState()->centralHeatingTemperature,
+            Controller::get()->getCurrentState()->hotWaterTemperature,
+            Controller::get()->getCurrentState()->fumesTemperature);
     http.begin(client, server);
     http.GET();
     http.end();
