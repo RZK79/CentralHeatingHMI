@@ -26,10 +26,10 @@ void TimingView::reset(int position)
 {
     currentParam = 0;
     selectedPos = Controller::get()->getCurrentState()->firingUpTimeToSet;
-    Knob::get()->setMinMax(0, 10 * 60 * 1000);
+    Knob::get()->setMinMax(0, 60 * 60 * 1000);
     Knob::get()->setListener(this);
     Knob::get()->setPosition(selectedPos);
-    Knob::get()->setStep(1000);
+    Knob::get()->setStep(10000);
 }
 
 void TimingView::onPositionChange(int position)
@@ -52,7 +52,6 @@ void TimingView::onButtonReleased()
         Controller::get()->getCurrentState()->save();
         Controller::get()->getSerialCommunication()->setStabilizationTime(selectedPos);
 
-        Knob::get()->setStep(1);
         Controller::get()->changeView("mainMenu", 8);
     }
 }

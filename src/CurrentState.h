@@ -1,7 +1,7 @@
 #ifndef _CURRENTSTATE_H_
 #define _CURRENTSTATE_H_
 
-#define SAVE_VERSION    0x0004
+#define SAVE_VERSION    0x0006
 
 class CurrentState {
 public:
@@ -29,6 +29,7 @@ public:
     int NTChw;
     int firingUpTimeToSet;
     int stabilizationTimeToSet;
+    int currentState;
     
     void setDefault();
 

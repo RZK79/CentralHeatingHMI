@@ -4,7 +4,6 @@
 #include "Controller.h"
 #include "Config.h"
 #include "CurrentState.h"
-#include "Debug.h"
 #include "Errors.h"
 #include "Knob.h"
 #include "SerialCommunication.h"
@@ -16,8 +15,7 @@ int port = 443;
 
 Controller* Controller::instance = nullptr;
 
-Controller* Controller::get()
-{
+Controller* Controller::get() {
     if (instance == nullptr) {
         instance = new Controller();
     }
@@ -25,10 +23,13 @@ Controller* Controller::get()
     return instance;
 }
 
-Controller::Controller()
-{
+Controller::Controller() {
     state = new CurrentState();
     se = new SerialCommunication();
+    ds = new DataSender();
+}
+
+void Controller::setup() {
     se->resetArduino();
 
     views["mainMenu"] = new MainMenuView();
@@ -43,11 +44,6 @@ Controller::Controller()
     views["NTC"] = new NTCView();
     views["timing"] = new TimingView();
 
-    ds = new DataSender();
-}
-
-void Controller::setup()
-{
     WiFi.mode(WIFI_STA);
     WiFi.begin(WIFI_AP, WIFI_PASS);
 
@@ -65,8 +61,7 @@ void Controller::setup()
     changeView("mainMenu");
 }
 
-void Controller::updateParameters()
-{
+void Controller::updateParameters() {
     se->setCentralHeatingTemperature(state->centralHeatingTemperatureToSet);
     se->setHotWaterTemperature(state->hotWaterTemperatureToSet);
     se->setFeederPeriod(state->feederPeriodToSet);
@@ -76,27 +71,25 @@ void Controller::updateParameters()
     se->setBlowerSpeedNormal(state->blowerSpeedToSetNormal);
     se->setNTCCHType(state->NTCch);
     se->setNTCHWType(state->NTChw);
+    se->getCurrentState();
 }
 
-void Controller::changeView(String viewName, int position)
-{
+void Controller::changeView(String viewName, int position) {
     updateParameters();
     currentView = viewName;
+    Knob::get()->setStep(1);
     views[currentView]->reset(position);
 }
 
-CurrentState* Controller::getCurrentState()
-{
+CurrentState* Controller::getCurrentState() {
     return state;
 }
 
-SerialCommunication* Controller::getSerialCommunication()
-{
+SerialCommunication* Controller::getSerialCommunication() {
     return se;
 }
 
-void Controller::loop()
-{
+void Controller::loop() {
     ds->update();
     updateDataTimer->update();
     updateTempTimer->update();
@@ -104,8 +97,7 @@ void Controller::loop()
     Lcd::get()->updateView();
 }
 
-void Controller::onTime(Timer* timer)
-{
+void Controller::onTime(Timer* timer) {
     if (timer == updateDataTimer) {
         se->getCentralHeatingPump();
         se->getHotWaterPump();
@@ -133,8 +125,7 @@ void Controller::onTime(Timer* timer)
     }
 }
 
-void Controller::reset()
-{
+void Controller::reset() {
     se->resetArduino();
     EspClass::reset();
 }

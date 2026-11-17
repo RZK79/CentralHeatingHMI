@@ -43,7 +43,6 @@ void FeederView::onButtonReleased() {
         Controller::get()->getCurrentState()->save();
         Controller::get()->getSerialCommunication()->setFeederTime(Controller::get()->getCurrentState()->feederTimeToSet);
         Controller::get()->getSerialCommunication()->setFeederPeriod(Controller::get()->getCurrentState()->feederPeriodToSet);
-        Knob::get()->setStep(1);
         Controller::get()->changeView("mainMenu", 5);
     }
 }

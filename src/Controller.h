@@ -10,6 +10,20 @@
 #include "DataSender.h"
 
 class Controller : public TimerEventListener {
+public:
+    enum State {
+        OFF,
+        FIRING_UP_PREBLOW,
+        FIRING_UP_PREBLOW_DONE,
+        PREFEED,
+        PREFEED_DONE,
+        FIRING_UP,
+        STABILIZATION,
+        NORMAL,
+        CLEANING,
+        EXTINCTION
+    };
+private:
     static Controller* instance;
 
     Timer* updateDataTimer;
@@ -32,7 +46,7 @@ public:
     SerialCommunication* getSerialCommunication();
     void updateParameters();
     void reset();
-    
+
     virtual void onTime(Timer* timer);
 };
 #endif

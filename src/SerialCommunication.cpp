@@ -2,22 +2,19 @@
 #include "Controller.h"
 #include "CurrentState.h"
 
-SerialCommunication::SerialCommunication()
-{
+SerialCommunication::SerialCommunication() {
     Serial.begin(9600);
     init();
 }
 
-void SerialCommunication::init()
-{
+void SerialCommunication::init() {
     data[0] = '\0';
     recvInProgress = false;
     i = 0;
 }
 
-void SerialCommunication::serialEvent()
-{
-    while(Serial.available()){
+void SerialCommunication::serialEvent() {
+    while (Serial.available()) {
         char c = Serial.read();
         if (recvInProgress) {
             if (c != end) {
@@ -38,8 +35,7 @@ void SerialCommunication::serialEvent()
     }
 }
 
-void SerialCommunication::parseData(char* data)
-{
+void SerialCommunication::parseData(char* data) {
     if (strncmp("gft", data, 3) == 0) {
         Controller::get()->getCurrentState()->fumesTemperature = atoi(&data[3]);
     } else if (strncmp("ghwt", data, 4) == 0) {
@@ -58,166 +54,144 @@ void SerialCommunication::parseData(char* data)
         Controller::get()->getCurrentState()->isFeederOn = (bool)atoi(&data[2]);
     } else if (strncmp("error", data, 5) == 0) {
         Controller::get()->getCurrentState()->error = atoi(&data[5]);
+    } else if (strncmp("gcs", data, 3) == 0){
+        Controller::get()->getCurrentState()->currentState = atoi(&data[3]);
     }
 }
 
-void SerialCommunication::turnOn()
-{
+void SerialCommunication::turnOn() {
     Serial.print("*ton#");
 }
 
-void SerialCommunication::turnOff()
-{
+void SerialCommunication::turnOff() {
     Serial.print("*toff#");
 }
 
-void SerialCommunication::setFeederTime(int time)
-{
+void SerialCommunication::setFeederTime(int time) {
     Serial.print("*sft");
     Serial.print(time);
     Serial.print("#");
 }
 
-void SerialCommunication::setFeederPeriod(int time)
-{
+void SerialCommunication::setFeederPeriod(int time) {
     Serial.print("*sfp");
     Serial.print(time);
     Serial.print("#");
 }
 
-void SerialCommunication::setBlowerSpeedFiringUp(int speed)
-{
+void SerialCommunication::setBlowerSpeedFiringUp(int speed) {
     Serial.print("*sbsfu");
     Serial.print(speed);
     Serial.print("#");
 }
 
-void SerialCommunication::setBlowerSpeedStabilization(int speed)
-{
+void SerialCommunication::setBlowerSpeedStabilization(int speed) {
     Serial.print("*sbss");
     Serial.print(speed);
     Serial.print("#");
 }
 
-void SerialCommunication::setBlowerSpeedNormal(int speed)
-{
+void SerialCommunication::setBlowerSpeedNormal(int speed) {
     Serial.print("*sbsn");
     Serial.print(speed);
     Serial.print("#");
 }
 
-void SerialCommunication::setCentralHeatingTemperature(int temperature)
-{
+void SerialCommunication::setCentralHeatingTemperature(int temperature) {
     Serial.print("*scht");
     Serial.print(temperature);
     Serial.print("#");
 }
 
-void SerialCommunication::getCentralHeatingTemperature()
-{
+void SerialCommunication::getCentralHeatingTemperature() {
     Serial.print("*gcht#");
 }
 
-void SerialCommunication::setHotWaterTemperature(int temperature)
-{
+void SerialCommunication::setHotWaterTemperature(int temperature) {
     Serial.print("*shwt");
     Serial.print(temperature);
     Serial.print("#");
 }
 
-void SerialCommunication::getHotWaterTemperature()
-{
+void SerialCommunication::getHotWaterTemperature() {
     Serial.print("*ghwt#");
 }
 
-void SerialCommunication::getFumesTemperature()
-{
+void SerialCommunication::getCurrentState(){
+    Serial.println("*gcs#");
+}
+
+void SerialCommunication::getFumesTemperature() {
     Serial.print("*gft#");
 }
 
-void SerialCommunication::getCentralHeatingPump()
-{
+void SerialCommunication::getCentralHeatingPump() {
     Serial.print("*gchp#");
 }
 
-void SerialCommunication::getHotWaterPump()
-{
+void SerialCommunication::getHotWaterPump() {
     Serial.print("*ghwp#");
 }
 
-void SerialCommunication::getLighter()
-{
+void SerialCommunication::getLighter() {
     Serial.print("*gl#");
 }
 
-void SerialCommunication::getBlowerSpeed()
-{
+void SerialCommunication::getBlowerSpeed() {
     Serial.print("*gbs#");
 }
 
-void SerialCommunication::getFeeder()
-{
+void SerialCommunication::getFeeder() {
     Serial.print("*gf#");
 }
 
-void SerialCommunication::getError()
-{
+void SerialCommunication::getError() {
     Serial.print("*error#");
 }
 
-void SerialCommunication::resetError()
-{
+void SerialCommunication::resetError() {
     Serial.print("*reseterror#");
 }
 
-void SerialCommunication::resetArduino()
-{
+void SerialCommunication::resetArduino() {
     Serial.print("*reset#");
 }
 
-void SerialCommunication::setNTCCHType(int ntcType)
-{
+void SerialCommunication::setNTCCHType(int ntcType) {
     Serial.print("*sntcch");
     Serial.print(ntcType);
     Serial.print("#");
 }
 
-void SerialCommunication::setNTCHWType(int ntcType)
-{
+void SerialCommunication::setNTCHWType(int ntcType) {
     Serial.print("*sntchw");
     Serial.print(ntcType);
     Serial.print("#");
 }
 
-void SerialCommunication::turnCentralHeatingPumpOn()
-{
+void SerialCommunication::turnCentralHeatingPumpOn() {
     Serial.print("*chpumpon#");
 }
 
-void SerialCommunication::turnCentralHeatingPumpOff()
-{
+void SerialCommunication::turnCentralHeatingPumpOff() {
     Serial.print("*chpumpoff#");
 }
 
-void SerialCommunication::turnHotWaterPumpOn()
-{
+void SerialCommunication::turnHotWaterPumpOn() {
     Serial.print("*hwpumpon#");
 }
 
-void SerialCommunication::turnHotWaterPumpOff()
-{
+void SerialCommunication::turnHotWaterPumpOff() {
     Serial.print("*hwpumpoff#");
 }
 
-void SerialCommunication::setFiringUpTime(int time)
-{
+void SerialCommunication::setFiringUpTime(int time) {
     Serial.print("*sfut");
     Serial.print(time);
     Serial.print("#");
 }
 
-void SerialCommunication::setStabilizationTime(int time)
-{
+void SerialCommunication::setStabilizationTime(int time) {
     Serial.print("*sst");
     Serial.print(time);
     Serial.print("#");

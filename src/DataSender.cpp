@@ -13,13 +13,13 @@ DataSender::DataSender() {
     timer->start(10 * SECOND);
 }
 
-void DataSender::onTime(Timer *t){
+void DataSender::onTime(Timer* t) {
     if (WiFi.status() == WL_CONNECTED) {
         send();
     }
 }
 
-void DataSender::update(){
+void DataSender::update() {
     timer->update();
 }
 
@@ -40,10 +40,14 @@ void DataSender::send() {
     WiFiClient client;
     HTTPClient http;
     char server[200];
-    sprintf(server, "%sstore.php?cht=%d&hwt=%d&ft=%d", serverAddress,
-            Controller::get()->getCurrentState()->centralHeatingTemperature,
-            Controller::get()->getCurrentState()->hotWaterTemperature,
-            Controller::get()->getCurrentState()->fumesTemperature);
+    sprintf(server, "%sstore.php?cht=%d&hwt=%d&ft=%d&pump=%d%d&state=%d", serverAddress,
+        Controller::get()->getCurrentState()->centralHeatingTemperature,
+        Controller::get()->getCurrentState()->hotWaterTemperature,
+        Controller::get()->getCurrentState()->fumesTemperature,
+        Controller::get()->getCurrentState()->isCentralHeatingPumpOn,
+        Controller::get()->getCurrentState()->isHotWaterPumpOn,
+        Controller::get()->getCurrentState()->currentState);
+
     http.begin(client, server);
     http.GET();
     http.end();

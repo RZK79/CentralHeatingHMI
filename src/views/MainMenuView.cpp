@@ -3,7 +3,6 @@
 #include "icons.h"
 #include "Controller.h"
 #include "CurrentState.h"
-#include "Debug.h"
 
 void MainMenuView::reset(int position) {
     Knob::get()->setMinMax(0, 8);
@@ -20,6 +19,42 @@ void MainMenuView::pumpStatus() {
     } else {
         Lcd::get()->screen()->drawCircle(20, 58, 3, SSD1306_WHITE);
     }
+
+    Lcd::get()->screen()->setCursor(35, 55);
+    switch (Controller::get()->getCurrentState()->currentState) {
+        case Controller::OFF:
+            Lcd::get()->screen()->print("off");
+            break;
+
+        case Controller::FIRING_UP_PREBLOW:
+            Lcd::get()->screen()->print("preblow");
+            break;
+
+        case Controller::PREFEED:
+            Lcd::get()->screen()->print("prefeed");
+            break;
+
+        case Controller::FIRING_UP:
+            Lcd::get()->screen()->print("firing");
+            break;
+
+        case Controller::STABILIZATION:
+            Lcd::get()->screen()->print("stab.");
+            break;
+
+        case Controller::NORMAL:
+            Lcd::get()->screen()->print("normal");
+            break;
+
+        case Controller::CLEANING:
+            Lcd::get()->screen()->print("clean");
+            break;
+
+        case Controller::EXTINCTION:
+            Lcd::get()->screen()->print("extinct");
+            break;
+    }
+
     Lcd::get()->screen()->setCursor(90, 55);
     Lcd::get()->screen()->print("CWU");
     if (Controller::get()->getCurrentState()->isHotWaterPumpOn) {
@@ -174,8 +209,6 @@ void MainMenuView::show() {
     } else if (Knob::get()->getPosition() == 8) {
         showTiming();
     }
-
-    Debug::State();
 
     pumpStatus();
 

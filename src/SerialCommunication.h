@@ -37,6 +37,8 @@ public:
 
     void getFumesTemperature();
 
+    void getCurrentState();
+
     void getError();
     void resetError();
 

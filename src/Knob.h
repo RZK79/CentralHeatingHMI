@@ -5,17 +5,11 @@
 
 class KnobListener {
 public:
-    virtual void onPositionChange(int position){
+    virtual void onPositionChange(int position){}
 
-    }
+    virtual void onButtonReleased(){}
 
-    virtual void onButtonReleased(){
-
-    }
-
-    virtual void onButtonPressed(){
-        
-    }
+    virtual void onButtonPressed(){}
 };
 
 class Knob : public ButtonListener {
