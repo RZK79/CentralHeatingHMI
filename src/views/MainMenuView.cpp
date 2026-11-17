@@ -103,25 +103,25 @@ void MainMenuView::onButtonReleased() {
 
 void MainMenuView::showInfo() {
     Lcd::get()->screen()->clearDisplay();
-    Lcd::get()->screen()->setTextSize(1);
+    Lcd::get()->screen()->setTextSize(2);
     Lcd::get()->screen()->cp437(true);
 
-    Lcd::get()->screen()->setCursor(5, 5);
-    String txt = String("temp CO: ");
+    Lcd::get()->screen()->setCursor(2, 8);
+    String txt;
     txt.concat(Controller::get()->getCurrentState()->centralHeatingTemperature);
     txt.concat((char)0xf8);
     txt.concat('C');
     Lcd::get()->screen()->print(txt);
 
-    Lcd::get()->screen()->setCursor(5, 16);
-    txt = String("temp CWU: ");
+    Lcd::get()->screen()->setCursor(62, 8);
+    txt = String();
     txt.concat(Controller::get()->getCurrentState()->hotWaterTemperature);
     txt.concat((char)0xf8);
     txt.concat('C');
     Lcd::get()->screen()->print(txt);
 
-    Lcd::get()->screen()->setCursor(5, 27);
-    txt = String("temp spalin: ");
+    Lcd::get()->screen()->setCursor(42,26);
+    txt = String();
     txt.concat(Controller::get()->getCurrentState()->fumesTemperature);
     txt.concat((char)0xf8);
     txt.concat('C');

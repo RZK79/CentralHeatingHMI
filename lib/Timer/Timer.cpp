@@ -28,7 +28,7 @@ void Timer::addEventListener(TimerEventListener* listener) {
     listeners.push_back(listener);
 }
 
-void Timer::start(unsigned long timoutToSet) {
+void Timer::start(uint32_t timoutToSet) {
     timeout = timoutToSet;
     startMillis = millis();
     paused = false;

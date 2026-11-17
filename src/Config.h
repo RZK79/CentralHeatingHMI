@@ -3,9 +3,6 @@
 
 #include <Arduino.h>
 
-#define SECOND (uint16_t)1000
-#define MINUTE (uint16_t)60*SECOND
-
 #define ENCODER_A       D3
 #define ENCODER_B       D6
 #define BUTTON          D5

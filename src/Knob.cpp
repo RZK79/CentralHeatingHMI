@@ -54,6 +54,8 @@ void Knob::update() {
         if (listener != nullptr) {
             listener->onPositionChange(position);
         }
+
+        delay(2);
     }
 
     A_prev_state = A_state;

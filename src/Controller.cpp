@@ -10,7 +10,8 @@
 #include "views/Views.h"
 #include "wifi_credentials.h"
 
-char serverAddress[] = "http://dklog.webd.pro/"; // server address
+char serverAddress[] = "http://192.168.0.60/"; // server address
+// char serverAddress[] = "http://dklog.webd.pro/"; // server address
 int port = 443;
 
 Controller* Controller::instance = nullptr;
@@ -98,6 +99,8 @@ void Controller::loop() {
 }
 
 void Controller::onTime(Timer* timer) {
+    se->getCurrentState();
+    
     if (timer == updateDataTimer) {
         se->getCentralHeatingPump();
         se->getHotWaterPump();

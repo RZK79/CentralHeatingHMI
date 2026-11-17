@@ -1,9 +1,7 @@
 #include "CurrentState.h"
 #include "Controller.h"
-#include "Config.h"
 #include "Errors.h"
 #include "NTCType.h"
-#include <Arduino.h>
 #include <EEPROM.h>
 
 CurrentState::CurrentState()
@@ -21,13 +19,13 @@ void CurrentState::setDefault()
     isHotWaterPumpOn = false;
     lighter = false;
     isFeederOn = false;
-    feederTimeToSet = 1500;
-    feederPeriodToSet = 5000;
-    centralHeatingTemperatureToSet = 55;
-    hotWaterTemperatureToSet = 45;
+    feederTimeToSet = 1100;
+    feederPeriodToSet = 9000;
+    centralHeatingTemperatureToSet = 60;
+    hotWaterTemperatureToSet = 50;
     blowerSpeedToSetFiringUp = 90;
-    blowerSpeedToSetStabilization = 45;
-    blowerSpeedToSetNormal = 30;
+    blowerSpeedToSetStabilization = 50;
+    blowerSpeedToSetNormal = 40;
     blowerSpeed = 0;
     centralHeatingTemperature = 0;
     hotWaterTemperature = 0;
@@ -35,8 +33,8 @@ void CurrentState::setDefault()
     error = CentralHeating::Errors::OK;
     NTCch = NTC_10k;
     NTChw = NTC_5k;
-    firingUpTimeToSet = 4 * MINUTE;
-    stabilizationTimeToSet = 3 * MINUTE;
+    firingUpTimeToSet = 4 * 60;
+    stabilizationTimeToSet = 3 * 60;
     currentState = Controller::OFF;
 }
 
